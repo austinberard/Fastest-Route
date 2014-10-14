@@ -50,11 +50,15 @@ print(finishLocation)
 def distance(x1, y1, x2, y2):
     xs = (abs(x2 - x1)) ** 2
     ys = (abs(y2 - y1)) ** 2
-
+    
+    dis = math.sqrt(((abs(x2 - x1)) ** 2) + ((abs(y2 - y1)) ** 2))
+    
     xPlusy = xs + ys
 
-    dist = math.sqrt(xPlusy)
-
+    dist = math.sqrt(xPlusY)
+    
+    print(dis)
+    
     print(dist)
 
 distance(-71.06051998544072, 42.33363229107746, -71.10821497085833, 42.340575044581286)
