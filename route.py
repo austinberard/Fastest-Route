@@ -11,17 +11,15 @@ with open("hubway_stations.csv") as csvfile2:
     for rows in readCSV2:
         if rows[0] != 'id':     # Skip first line
             stations.append([float(rows[4]), float(rows[5])])
-print(stations)
 
 start = [random.uniform(42.309467, 42.40449),
          random.uniform(-71.035705, -71.146452)]
-         
 
 finish = [random.uniform(42.309467, 42.40449),
           random.uniform(-71.035705, -71.146452)]
           
 
-
+# See: http://www.johndcook.com/python_longitude_latitude.html
 def distance(p1, p2):
     lat1 = p1[0]
     lng1 = p1[1]
@@ -36,10 +34,10 @@ distance([42.33363229107746, -71.06051998544072],
 
 distance(start, finish)
 
-def NearestStation(origin, sts):
+def nearest(origin, pts):
     closest = None
     smallest_distance = sys.float_info.max
-    for pt in sts:
+    for pt in pts:
         d = distance(origin, pt)
         if d < smallest_distance:
             closest = pt
@@ -47,22 +45,17 @@ def NearestStation(origin, sts):
     return closest
 
 
+station1 = nearest(start, stations)
+station2 = nearest(finish, stations)
 
-station1 = NearestStation(start, stations)
-station2 = NearestStation(finish, stations)
+def print_directions(start, station1, station2, end):
+    print("Walk %0.2fkm to %s" % (distance(start, station1), station1))
+    print("Bike %0.2fkm to %s" % (distance(station1, station2), station2))
+    print("Walk %0.2fkm to %s" % (distance(station2, finish), finish))
 
-# Forst cut: one route, using closest stations
-#  Walk directions from start to station1
-#  Bike directions from station1 to station2
-#  Walk directions from station2 to finish
+print_directions(start, station1, station2, finish)
 
 # Then try comparing several routes using sets of start and end stations
 #for station1 in startstations:
 #    for station2 in endstations:
-#        Walk directions from start to station1
-#        Bike directions from station1 to station2
-#        Walk directions from station2 to finish
-
-
-
-print('The closest station to %s is %s' % (start, nearest))
+#        print_directions(start, station1, station2, finish)
