@@ -36,7 +36,7 @@ distance([42.33363229107746, -71.06051998544072],
 
 distance(start, finish)
 
-def NearestStartStation(origin, sts):
+def NearestStation(origin, sts):
     closest = None
     smallest_distance = sys.float_info.max
     for pt in sts:
@@ -48,5 +48,21 @@ def NearestStartStation(origin, sts):
 
 
 
-nearest = NearestStartStation(start, stations)
+station1 = NearestStation(start, stations)
+station2 = NearestStation(finish, stations)
+
+# Forst cut: one route, using closest stations
+#  Walk directions from start to station1
+#  Bike directions from station1 to station2
+#  Walk directions from station2 to finish
+
+# Then try comparing several routes using sets of start and end stations
+#for station1 in startstations:
+#    for station2 in endstations:
+#        Walk directions from start to station1
+#        Bike directions from station1 to station2
+#        Walk directions from station2 to finish
+
+
+
 print('The closest station to %s is %s' % (start, nearest))
