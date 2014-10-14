@@ -1,77 +1,52 @@
+#!/usr/bin/env python3
 __author__ = 'Austin'
+import sys
 import csv
 import random
 import math
 
+stations = []
 with open("hubway_stations.csv") as csvfile2:
     readCSV2 = csv.reader(csvfile2, delimiter = ",")
-    lng = []
-    lat = []
-
     for rows in readCSV2:
-        lngg = rows[5]
-        lng.append(lngg)
+        if rows[0] != 'id':     # Skip first line
+            stations.append([float(rows[4]), float(rows[5])])
+print(stations)
 
-        latt = rows[4]
-        lat.append(latt)
+start = [random.uniform(42.309467, 42.40449),
+         random.uniform(-71.035705, -71.146452)]
+         
 
-del lng[0]
-del lat[0]
-
-# print(lng)
-# print(lat)
-#
-# print(min(lng))
-# print(max(lng))
-# print(min(lat))
-# print(max(lat))
+finish = [random.uniform(42.309467, 42.40449),
+          random.uniform(-71.035705, -71.146452)]
+          
 
 
-startLocation = []
-finishLocation = []
+def distance(p1, p2):
+    lat1 = p1[0]
+    lng1 = p1[1]
 
-startLng = random.uniform(-71.035705, -71.146452)
-startLat = random.uniform(42.309467, 42.40449)
+    lat2 = p2[0]
+    lng2 = p2[1]
+    dis = math.sqrt(((lat2 - lat1) ** 2) + ((lng2 - lng1) ** 2))
+    return dis
 
-startLocation.append(startLng)
-startLocation.append(startLat)
+distance([42.33363229107746, -71.06051998544072],
+         [42.340575044581286, -71.10821497085833])
 
-finishLng = random.uniform(-71.035705, -71.146452)
-finishLat = random.uniform(42.309467, 42.40449)
+distance(start, finish)
 
-finishLocation.append(finishLng)
-finishLocation.append(finishLat)
+def NearestStartStation(origin, sts):
+    closest = None
+    smallest_distance = sys.float_info.max
+    for pt in sts:
+        d = distance(origin, pt)
+        if d < smallest_distance:
+            closest = pt
+            smallest_distance = d
+    return closest
 
 
-print(startLocation)
-print(finishLocation)
 
-
-def distance(x1, y1, x2, y2):
-    xs = (abs(x2 - x1)) ** 2
-    ys = (abs(y2 - y1)) ** 2
-    
-    dis = math.sqrt(((abs(x2 - x1)) ** 2) + ((abs(y2 - y1)) ** 2))
-    
-    xPlusy = xs + ys
-
-    dist = math.sqrt(xPlusY)
-    
-    print(dis)
-    
-    print(dist)
-
-distance(-71.06051998544072, 42.33363229107746, -71.10821497085833, 42.340575044581286)
-
-distance(startLocation[0], startLocation[1], finishLocation[0], finishLocation[1])
-
-j = 0
-
-def NearestStartStation(x, y):
-    for i in lng:
-        global j
-        j+=1
-        print(i)
-        print(j)
-
-NearestStartStation(-71.06051998544072, 42.33363229107746)
+nearest = NearestStartStation(start, stations)
+print('The closest station to %s is %s' % (start, nearest))
