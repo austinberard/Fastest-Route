@@ -41,26 +41,18 @@ def distance_on_unit_sphere(p1, p2):
     theta2 = lng2*degrees_to_radians
         
     # Compute spherical distance from spherical coordinates.
-        
-    # For two locations in spherical coordinates 
-    # (1, theta, phi) and (1, theta, phi)
-    # cosine( arc length ) = 
-    #    sin phi sin phi' cos(theta-theta') + cos phi cos phi'
-    # distance = rho * arc length
-    
     cos = (math.sin(phi1)*math.sin(phi2)*math.cos(theta1 - theta2) + 
            math.cos(phi1)*math.cos(phi2))
     arc = math.acos( cos )
 
-    km = arc * 6371
-    
-    # Remember to multiply arc by the radius of the earth 
+    # Remember to multiply arc by the radius of the earth
     # in your favorite set of units to get length.
+    km = arc * 6371
     return km
-    print(km)
 
 
-# See: http://www.johndcook.com/python_longitude_latitude.html
+
+
 def distance(p1, p2):
     lat1 = p1[0]
     lng1 = p1[1]
@@ -79,7 +71,7 @@ def nearest(origin, pts):
     closest = None
     smallest_distance = sys.float_info.max
     for pt in pts:
-        d = distance(origin, pt)
+        d = distance_on_unit_sphere(origin, pt)
         if d < smallest_distance:
             closest = pt
             smallest_distance = d
