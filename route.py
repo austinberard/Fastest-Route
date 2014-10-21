@@ -17,7 +17,48 @@ start = [random.uniform(42.309467, 42.40449),
 
 finish = [random.uniform(42.309467, 42.40449),
           random.uniform(-71.035705, -71.146452)]
+
+
           
+def distance_on_unit_sphere(p1, p2):
+
+    lat1 = p1[0]
+    lng1 = p1[1]
+
+    lat2 = p2[0]
+    lng2 = p2[1]
+    
+    # Convert latitude and longitude to 
+    # spherical coordinates in radians.
+    degrees_to_radians = math.pi/180.0
+        
+    # phi = 90 - latitude
+    phi1 = (90.0 - lat1)*degrees_to_radians
+    phi2 = (90.0 - lat2)*degrees_to_radians
+        
+    # theta = longitude
+    theta1 = lng1*degrees_to_radians
+    theta2 = lng2*degrees_to_radians
+        
+    # Compute spherical distance from spherical coordinates.
+        
+    # For two locations in spherical coordinates 
+    # (1, theta, phi) and (1, theta, phi)
+    # cosine( arc length ) = 
+    #    sin phi sin phi' cos(theta-theta') + cos phi cos phi'
+    # distance = rho * arc length
+    
+    cos = (math.sin(phi1)*math.sin(phi2)*math.cos(theta1 - theta2) + 
+           math.cos(phi1)*math.cos(phi2))
+    arc = math.acos( cos )
+
+    km = arc * 6371
+    
+    # Remember to multiply arc by the radius of the earth 
+    # in your favorite set of units to get length.
+    return km
+    print(km)
+
 
 # See: http://www.johndcook.com/python_longitude_latitude.html
 def distance(p1, p2):
@@ -49,9 +90,9 @@ station1 = nearest(start, stations)
 station2 = nearest(finish, stations)
 
 def print_directions(start, station1, station2, end):
-    print("Walk %0.2fkm to %s" % (distance(start, station1), station1))
-    print("Bike %0.2fkm to %s" % (distance(station1, station2), station2))
-    print("Walk %0.2fkm to %s" % (distance(station2, finish), finish))
+    print("Walk %0.2fkm to %s" % (distance_on_unit_sphere(start, station1), station1))
+    print("Bike %0.2fkm to %s" % (distance_on_unit_sphere(station1, station2), station2))
+    print("Walk %0.2fkm to %s" % (distance_on_unit_sphere(station2, finish), finish))
 
 print_directions(start, station1, station2, finish)
 
@@ -59,3 +100,4 @@ print_directions(start, station1, station2, finish)
 #for station1 in startstations:
 #    for station2 in endstations:
 #        print_directions(start, station1, station2, finish)
+
