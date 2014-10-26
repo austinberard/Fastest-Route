@@ -92,7 +92,6 @@ def travel_time(start, end):
 
 
 print_information(start, station1, station2, finish)
-# print_time(start, station1, station2, finish)
 
 
 
