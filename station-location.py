@@ -30,12 +30,12 @@ height = 600;
 ne = []
 sw = []
 
-def ll_to_xy(pt)
-  pct =  (pt[0]-ne[0]) / (ne[0]-sw[0)
-  y = height * pct
-  pct =  (pt[1]-ne[1]) / (ne[1]-sw[1)
-  x = width * pct
-  return [x, y]
+def ll_to_xy(pt):
+    pct = (pt[0]-ne[0]) / (ne[0]-sw[0])
+    y = height * pct
+    pct = (pt[1]-ne[1]) / (ne[1]-sw[1])
+    x = width * pct
+    return [x, y]
 
 pts = map(ll_to_xy, stations)
 
