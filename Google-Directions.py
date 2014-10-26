@@ -16,4 +16,4 @@ def Directions(start, end, mode):
 
 
 
-Directions("42.340021,-71.100812", "woonsocket", "driving")
+Directions("42.340021,-71.100812", "woonsocket", "bicycle")
