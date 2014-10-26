@@ -4,6 +4,8 @@ import sys
 import csv
 import random
 import math
+import simplejson
+from urllib.request import urlopen
 
 stations = []
 with open("hubway_stations.csv") as csvfile2:
@@ -19,7 +21,6 @@ finish = [random.uniform(42.309467, 42.40449),
           random.uniform(-71.035705, -71.146452)]
 
 
-          
 def distance_on_unit_sphere(p1, p2):
 
     lat1 = p1[0]
@@ -51,8 +52,6 @@ def distance_on_unit_sphere(p1, p2):
     return km
 
 
-
-
 def distance(p1, p2):
     lat1 = p1[0]
     lng1 = p1[1]
@@ -62,10 +61,6 @@ def distance(p1, p2):
     dis = math.sqrt(((lat2 - lat1) ** 2) + ((lng2 - lng1) ** 2))
     return dis
 
-distance([42.33363229107746, -71.06051998544072],
-         [42.340575044581286, -71.10821497085833])
-
-distance(start, finish)
 
 def nearest(origin, pts):
     closest = None
@@ -81,12 +76,25 @@ def nearest(origin, pts):
 station1 = nearest(start, stations)
 station2 = nearest(finish, stations)
 
-def print_directions(start, station1, station2, end):
-    print("Walk %0.2fkm to %s" % (distance_on_unit_sphere(start, station1), station1))
-    print("Bike %0.2fkm to %s" % (distance_on_unit_sphere(station1, station2), station2))
-    print("Walk %0.2fkm to %s" % (distance_on_unit_sphere(station2, finish), finish))
 
-print_directions(start, station1, station2, finish)
+def print_information(start, station1, station2, finish):
+    print("Walk {0:.2f}km from {1} to {2}, {3}".format(distance_on_unit_sphere(start, station1), start, station1, travel_time(start, station1)))
+    print("Bike {0:.2f}km from {1} to {2}, {3}".format(distance_on_unit_sphere(station1, station2), station1, station2, travel_time(station1, station2)))
+    print("Walk {0:.2f}km from {1} to {2}, {3}".format(distance_on_unit_sphere(station2, finish), station2, finish, travel_time(station2, finish)))
+
+
+def travel_time(start, end):
+    url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + str(start[0]) + "," + str(start[1]) + "&destination=" + str(end[0]) + "," + str(end[1]) + "&mode=bicycle&key=AIzaSyCG4JPL7D7eLCnOap0mZnc5KCjOz2WXgf0"
+    json_obj = urlopen(url)
+    data = simplejson.load(json_obj)
+    duration = (data['routes'][0]['legs'][0]['duration'])
+    return duration['text']
+
+
+print_information(start, station1, station2, finish)
+# print_time(start, station1, station2, finish)
+
+
 
 # Then try comparing several routes using sets of start and end stations
 #for station1 in startstations:
