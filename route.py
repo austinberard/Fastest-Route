@@ -78,17 +78,18 @@ station2 = nearest(finish, stations)
 
 
 def print_information(start, station1, station2, finish):
-    print("Walk {0:.2f}km from {1} to {2}, {3}".format(distance_on_unit_sphere(start, station1), start, station1, travel_time(start, station1)))
-    print("Bike {0:.2f}km from {1} to {2}, {3}".format(distance_on_unit_sphere(station1, station2), station1, station2, travel_time(station1, station2)))
-    print("Walk {0:.2f}km from {1} to {2}, {3}".format(distance_on_unit_sphere(station2, finish), station2, finish, travel_time(station2, finish)))
+    print("Walk {0:.2f}km from {1} to {2}, {3}".format(distance_on_unit_sphere(start, station1), start, station1, travel_time(start, station1, "walking")))
+    print("Bike {0:.2f}km from {1} to {2}, {3}".format(distance_on_unit_sphere(station1, station2), station1, station2, travel_time(station1, station2, "bicycle")))
+    print("Walk {0:.2f}km from {1} to {2}, {3}".format(distance_on_unit_sphere(station2, finish), station2, finish, travel_time(station2, finish, "walking")))
 
 
-def travel_time(start, end):
-    url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + str(start[0]) + "," + str(start[1]) + "&destination=" + str(end[0]) + "," + str(end[1]) + "&mode=bicycle&key=AIzaSyCG4JPL7D7eLCnOap0mZnc5KCjOz2WXgf0"
+def travel_time(start, end, mode):
+    url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + str(start[0]) + "," + str(start[1]) + "&destination=" + str(end[0]) + "," + str(end[1]) + "&mode=" + mode +"&key=AIzaSyCG4JPL7D7eLCnOap0mZnc5KCjOz2WXgf0"
     json_obj = urlopen(url)
     data = simplejson.load(json_obj)
     duration = (data['routes'][0]['legs'][0]['duration'])
     return duration['text']
+
 
 
 print_information(start, station1, station2, finish)
