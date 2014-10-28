@@ -16,7 +16,7 @@ last_day = None
 def dayNum(date):
     global last_date
     global last_day
-    date_time = date.split(" ");
+    date_time = date.split(" ")
     if date_time[0] == last_date:
         return last_day
 
@@ -38,26 +38,48 @@ temps = [29, 21, 16, 30, 35, 36, 34, 37, 37, 41, 36, 41, 46, 52, 39, 33, 36, 25,
          66, 58, 44, 37, 40, 52, 56, 44, 41, 50, 47, 40, 32, 41, 50, 50, 47, 59, 41, 36, 39, 45, 41, 26, 26, 38, 51, 33, 29, 28, # nov
          41, 39, 43, 40, 47, 46, 37, 30, 37, 33, 28, 23, 23, 21, 31, 25, 19, 28, 35, 42, 48, 45, 37, 34, 22, 29, 32, 38, 39, 32, 20]
 
-dayCount = defaultdict(int);
+dayCount = defaultdict(int)
 with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
     for row in csv.reader(csvfile, delimiter=","):
         if row[0] == "seq_id":
             continue
         day = dayNum(row[4])
-        dayCount[day] += 1;
+        dayCount[day] += 1
+
+rain = [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0]
+
 
 days = []
 trips = []
-ts = []
+noRainTrips = []
+rainTrips = []
 
-for day,count in dayCount.items():
+ts = []
+noRainTs = []
+rainTs = []
+
+for day, count in dayCount.items():
     days.append(day)
     trips.append(count)
-    ts.append(temps[day-1])
+    if rain[day-1] == 0:
+        noRainTs.append(temps[day-1])
+        noRainTrips.append(count)
+    else:
+        rainTs.append(temps[day-1])
+        rainTrips.append(count)
+
+    # ts.append(temps[day-1])
+
 
 arrayDays = np.array(days)
 arrayTrips = np.array(trips)
 arrayTs = np.array(ts)
+
+arrayNoRainTrips = np.array(noRainTrips)
+arrayRainTrips = np.array(rainTrips)
+arrayNoRainTs = np.array(noRainTs)
+arrayRainTs = np.array(rainTs)
+
 
 daySmooth = np.linspace(arrayDays.min(), arrayDays.max(), 25)
 tripSmooth = spline(arrayDays, arrayTrips, daySmooth)
@@ -69,9 +91,9 @@ plt.xlim(0, 365)
 plt.ylim(0, arrayTrips.max())
 plt.show()
 
-plt.plot(arrayTs, arrayTrips, ".")
+plt.scatter(arrayNoRainTs, arrayNoRainTrips, color='blue')
+plt.scatter(arrayRainTs, arrayRainTrips, color='red')
 plt.xlim(0, 100)
-plt.ylim(0, arrayTrips.max())
+plt.ylim(0, (arrayTrips.max() + 100))
 plt.show()
 
-rain = [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0]
