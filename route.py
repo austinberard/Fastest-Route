@@ -89,7 +89,6 @@ def travel_time(start, end, mode):
     data = simplejson.load(json_obj)
     duration = (data['routes'][0]['legs'][0]['duration'])
     return duration['text']
-    # Remeber to put in waling mode for start to station1, and station2 to finish
 
 
 print_information(start, station1, station2, finish)
