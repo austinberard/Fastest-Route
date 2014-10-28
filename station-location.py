@@ -1,44 +1,42 @@
 #!/usr/bin/env python3
-
 __author__ = 'Austin'
 import matplotlib.pyplot as plt
+import random
 import csv
+from scipy.misc import imread
+
 with open("hubway_stations.csv") as csvfile2:
     readCSV2 = csv.reader(csvfile2, delimiter = ",")
-    lng = []
-    lat = []
-
+    stations = []
     for rows in readCSV2:
-        lngg = rows[5]
-        lng.append(lngg)
+        if rows[0] != 'id':     # Skip first line
+            stations.append([float(rows[5]), float(rows[4])])
 
-        latt = rows[4]
-        lat.append(latt)
 
-del lng[0]
-del lat[0]
-print(min(lng))
-print(max(lng))
-print(min(lat))
-print(max(lat))
-x = lng
-y = lat
-
+print(stations)
 # put up the map
-width = 800
-height = 600;
-ne = []
-sw = []
+width = 647
+height = 749
+ne = [-71.0357, 42.4045]
+sw = [-71.1465, 42.3095]
+
 
 def ll_to_xy(pt):
-    pct = (pt[0]-ne[0]) / (ne[0]-sw[0])
-    y = height * pct
-    pct = (pt[1]-ne[1]) / (ne[1]-sw[1])
-    x = width * pct
+    pct = (pt[0]-sw[0]) / (ne[0]-sw[0])
+    y = abs(height * pct)
+    pct = (pt[1]-sw[1]) / (ne[1]-sw[1])
+    x = abs(width * pct)
     return [x, y]
 
-pts = map(ll_to_xy, stations)
 
-plt.plot(pts ".")
+pts = [ll_to_xy(x) for x in stations]
+# List comprehension
 
+x1, y1 = zip(*pts)
+
+plt.xlim(0, 650)
+plt.ylim(0, 750)
+img = imread("map.png")
+plt.imshow(img, zorder=0, extent=[0, 647, 0, 749])
+plt.scatter(x1, y1)
 plt.show()
