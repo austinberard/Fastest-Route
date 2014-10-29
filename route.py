@@ -75,7 +75,6 @@ def print_information(start, station1, station2, finish):
 
 def travel_time(start, end, mode):
     url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + str(start[0]) + "," + str(start[1]) + "&destination=" + str(end[0]) + "," + str(end[1]) + "&mode=" + mode +"&key=AIzaSyCG4JPL7D7eLCnOap0mZnc5KCjOz2WXgf0"
-    print (url)
     json_obj = urlopen(url)
     data = simplejson.load(json_obj)
     duration = (data['routes'][0]['legs'][0]['duration'])
