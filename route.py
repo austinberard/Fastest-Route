@@ -78,7 +78,7 @@ def travel_time(start, end, mode):
     json_obj = urlopen(url)
     data = simplejson.load(json_obj)
     duration = (data['routes'][0]['legs'][0]['duration'])
-    return duration['text']
+    return int(duration['value'])
 
 
 print_information(start, station1, station2, finish)
