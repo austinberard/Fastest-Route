@@ -11,21 +11,21 @@ with open("hubway_stations.csv") as csvfile2:
     stations = []
     for rows in readCSV2:
         if rows[0] != 'id':     # Skip first line
-            stations.append([float(rows[5]), float(rows[4])])
+            stations.append([float(rows[4]), float(rows[5])])
 
 
 print(stations)
 # put up the map
 width = 647
 height = 749
-ne = [-71.0357, 42.4045]
-sw = [-71.1465, 42.3095]
+ne = [42.4045, -71.0357]
+sw = [42.3095, -71.1465]
 
 
 def ll_to_xy(pt):
-    pct = (pt[0]-sw[0]) / (ne[0]-sw[0])
-    x = width * pct
     pct = (pt[1]-sw[1]) / (ne[1]-sw[1])
+    x = width * pct
+    pct = (pt[0]-sw[0]) / (ne[0]-sw[0])
     y = height * pct
     return [x, y]
 

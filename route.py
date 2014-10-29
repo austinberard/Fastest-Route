@@ -21,7 +21,7 @@ finish = [random.uniform(42.309467, 42.40449),
           random.uniform(-71.035705, -71.146452)]
 
 
-def distance_on_unit_sphere(p1, p2):
+def distance_on_earth(p1, p2):
 
     lat1 = p1[0]
     lng1 = p1[1]
@@ -52,21 +52,11 @@ def distance_on_unit_sphere(p1, p2):
     return km
 
 
-def distance(p1, p2):
-    lat1 = p1[0]
-    lng1 = p1[1]
-
-    lat2 = p2[0]
-    lng2 = p2[1]
-    dis = math.sqrt(((lat2 - lat1) ** 2) + ((lng2 - lng1) ** 2))
-    return dis
-
-
 def nearest(origin, pts):
     closest = None
     smallest_distance = sys.float_info.max
     for pt in pts:
-        d = distance_on_unit_sphere(origin, pt)
+        d = distance_on_earth(origin, pt)
         if d < smallest_distance:
             closest = pt
             smallest_distance = d
@@ -78,13 +68,14 @@ station2 = nearest(finish, stations)
 
 
 def print_information(start, station1, station2, finish):
-    print("Walk {0:.2f}km from {1} to {2}, {3}".format(distance_on_unit_sphere(start, station1), start, station1, travel_time(start, station1, "walking")))
-    print("Bike {0:.2f}km from {1} to {2}, {3}".format(distance_on_unit_sphere(station1, station2), station1, station2, travel_time(station1, station2, "bicycle")))
-    print("Walk {0:.2f}km from {1} to {2}, {3}".format(distance_on_unit_sphere(station2, finish), station2, finish, travel_time(station2, finish, "walking")))
+    print("Walk {0:.2f}km from {1} to {2}, {3}".format(distance_on_earth(start, station1), start, station1, travel_time(start, station1, "walking")))
+    print("Bike {0:.2f}km from {1} to {2}, {3}".format(distance_on_earth(station1, station2), station1, station2, travel_time(station1, station2, "bicycle")))
+    print("Walk {0:.2f}km from {1} to {2}, {3}".format(distance_on_earth(station2, finish), station2, finish, travel_time(station2, finish, "walking")))
 
 
 def travel_time(start, end, mode):
     url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + str(start[0]) + "," + str(start[1]) + "&destination=" + str(end[0]) + "," + str(end[1]) + "&mode=" + mode +"&key=AIzaSyCG4JPL7D7eLCnOap0mZnc5KCjOz2WXgf0"
+    print (url)
     json_obj = urlopen(url)
     data = simplejson.load(json_obj)
     duration = (data['routes'][0]['legs'][0]['duration'])
