@@ -9,7 +9,7 @@ from urllib.request import urlopen
 
 stations = []
 with open("hubway_stations.csv") as csvfile2:
-    readCSV2 = csv.reader(csvfile2, delimiter = ",")
+    readCSV2 = csv.reader(csvfile2, delimiter=",")
     for rows in readCSV2:
         if rows[0] != 'id':     # Skip first line
             stations.append([float(rows[4]), float(rows[5])])
@@ -44,7 +44,7 @@ def distance_on_unit_sphere(p1, p2):
     # Compute spherical distance from spherical coordinates.
     cos = (math.sin(phi1)*math.sin(phi2)*math.cos(theta1 - theta2) + 
            math.cos(phi1)*math.cos(phi2))
-    arc = math.acos( cos )
+    arc = math.acos(cos)
 
     # Remember to multiply arc by the radius of the earth
     # in your favorite set of units to get length.
@@ -96,7 +96,7 @@ print_information(start, station1, station2, finish)
 
 
 # Then try comparing several routes using sets of start and end stations
-#for station1 in startstations:
+# for station1 in startstations:
 #    for station2 in endstations:
 #        print_directions(start, station1, station2, finish)
 
