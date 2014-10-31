@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+#Add different color for frequency of station
 __author__ = 'Austin'
 import matplotlib.pyplot as plt
 import random
