@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import random
 import csv
 from scipy.ndimage import imread
+import gzip
 
 with open("hubway_stations.csv") as csvfile2:
     readCSV2 = csv.reader(csvfile2, delimiter = ",")
@@ -12,6 +13,8 @@ with open("hubway_stations.csv") as csvfile2:
     for rows in readCSV2:
         if rows[0] != 'id':     # Skip first line
             stations.append([float(rows[4]), float(rows[5])])
+
+
 
 
 print(stations)
@@ -41,3 +44,20 @@ img = imread("map.png")
 plt.imshow(img, zorder=0, extent=[0, 647, 0, 749])
 plt.scatter(x1, y1)
 plt.show()
+
+# with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
+#     xs = []
+#     ys = []
+#     for row in csv.reader(csvfile, delimiter=","):
+#         if row[5] != "strt_statn":
+#             k = 0
+#             while k <= 10:
+#                 xs.append((row[5]))
+#                 ys.append((row[7]))
+#                 k = k + 1
+#
+# print(xs)
+# print(ys)
+
+# plt.scatter(xs, ys)
+# plt.show()
