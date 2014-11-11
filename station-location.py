@@ -38,12 +38,12 @@ pts = [ll_to_xy(x) for x in stations]
 
 x1, y1 = zip(*pts)
 
-# plt.xlim(0, 650)
-# plt.ylim(0, 750)
-# img = imread("map.png")
-# plt.imshow(img, zorder=0, extent=[0, 647, 0, 749])
-# plt.scatter(x1, y1)
-# plt.show()
+plt.xlim(0, 650)
+plt.ylim(0, 750)
+img = imread("map.png")
+plt.imshow(img, zorder=0, extent=[0, 647, 0, 749])
+plt.scatter(x1, y1)
+plt.show()
 
 
 
@@ -51,29 +51,31 @@ grid = []
 
 STATIONS = 150
 for i in range(0,STATIONS):
-  grid.append([])
-  for j in range(0,STATIONS):
-      grid[i].append(0)
+    grid.append([])
+    for j in range(0,STATIONS):
+        grid[i].append(0)
 
 
 with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
     for row in csv.reader(csvfile, delimiter=","):
         if row[5] == "strt_statn":
-            continue;
+            continue
         if row[5] == "" or row[7] == "":
-            continue;
+            continue
         start = int(row[5])
         end = int(row[7])
+
         if start > STATIONS or end > STATIONS:
             print("Ouch "+str(start) + " " + str(end))
-            exit
+            exit()
         grid[start][end] += 1
+
 
 max = 0
 for i in range(0,STATIONS):
   for j in range(0,STATIONS):
       if grid[i][j] > max:
-          max = grid[i][j];
+          max = grid[i][j]
 print(max)
 
 def darkness(d):
@@ -82,13 +84,13 @@ def darkness(d):
 cs = []
 pts = []
 for i in range(0,STATIONS):
-  for j in range(0,STATIONS):
-      pts.append([i,j])
-      cs.append(darkness(grid[i][j]))
+    for j in range(0,STATIONS):
+        pts.append([i,j])
+        cs.append(darkness(grid[i][j]))
 
 xs, ys = zip(*pts)
 
 plt.scatter(xs, ys, c = cs, s = 4, edgecolors='none')
-plt.show()
 plt.xlim(0, 150)
 plt.ylim(0, 150)
+plt.show()
