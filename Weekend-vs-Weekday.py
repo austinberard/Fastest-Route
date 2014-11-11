@@ -85,7 +85,7 @@ for i in range(0,STATIONS):
 
 xs, ys = zip(*pts)
 
-plt.scatter(xs, ys, c = cs, s = 1000, edgecolors='none')
+plt.scatter(xs, ys, c = cs, s = 4, edgecolors='none')
 plt.xlim(0, 150)
 plt.ylim(0, 150)
 plt.title("Weekend Trips")
