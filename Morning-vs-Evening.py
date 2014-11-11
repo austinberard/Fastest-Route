@@ -4,20 +4,12 @@ __author__ = 'Austin'
 import matplotlib.pyplot as plt
 import csv
 import gzip
-
-
-morningGrid = []
-eveningGrid = []
+import library
 
 STATIONS = 150
-for i in range(0, STATIONS):
-    morningGrid.append([])
-    for j in range(0, STATIONS):
-        morningGrid[i].append(0)
-for i in range(0, STATIONS):
-    eveningGrid.append([])
-    for j in range(0, STATIONS):
-        eveningGrid[i].append(0)
+morningGrid = library.initializeGrid(STATIONS)
+eveningGrid = library.initializeGrid(STATIONS)
+
 
 with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
     for row in csv.reader(csvfile, delimiter=","):
