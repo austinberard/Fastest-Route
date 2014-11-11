@@ -71,6 +71,20 @@ print(max)
 #     return diffenceGrid
 
 
+
+diffenceGrid = []
+STATIONS = 150
+for i in range(0, STATIONS):
+    diffenceGrid.append([])
+    for j in range(0, STATIONS):
+        diffenceGrid[i].append(0)
+
+for i in range(0, STATIONS):
+    for j in range(0, STATIONS):
+        diffenceGrid[i][j] = abs(morningGrid[i][j] - eveningGrid[i][j])
+
+
+
 def darkness(d):
     return str(1-(d/max))
 
@@ -109,19 +123,19 @@ plt.show()
 
 
 
-# cs = []
-# pts = []
-# for i in range(0,STATIONS):
-#     for j in range(0,STATIONS):
-#         pts.append([i,j])
-#         cs.append(darkness(differences(morningGrid, eveningGrid)[i][j]))
-#
-# xs, ys = zip(*pts)
-#
-# plt.scatter(xs, ys, c = cs, s = 4, edgecolors='none')
-# plt.xlim(0, 150)
-# plt.ylim(0, 150)
-# plt.title("Differences")
-# plt.show()
+cs = []
+pts = []
+for i in range(0,STATIONS):
+    for j in range(0,STATIONS):
+        pts.append([i,j])
+        cs.append(darkness(diffenceGrid[i][j]))
+
+xs, ys = zip(*pts)
+
+plt.scatter(xs, ys, c = cs, s = 4, edgecolors='none')
+plt.xlim(0, 150)
+plt.ylim(0, 150)
+plt.title("Differences")
+plt.show()
 
 
