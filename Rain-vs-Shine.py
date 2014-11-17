@@ -24,28 +24,36 @@ for i in range(0,STATIONS):
 i = 0
 with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
     for row in csv.reader(csvfile, delimiter=","):
-        print(i)
         if row[5] == "strt_statn":
+            i += 1
             continue
         if row[5] == "" or row[7] == "":
+            i += 1
             continue
         start = int(row[5])
         end = int(row[7])
+        rawDate = row[4]
+        betterDate = rawDate.replace(" ", "/")
+        bettererDate = betterDate.replace(":", "/")
+        date = bettererDate.split("/")
 
-        if start > STATIONS or end > STATIONS:
-            print("Ouch "+str(start) + " " + str(end))
-            exit()
-        if rain[i] > 0:
-            rainGrid[start][end] += 1
-        i += 1
-        print(i)
+        if date[2] == "2013":
+            print(i)
+            if rain[i] > 0:
+                rainGrid[start][end] += 1
 
+            elif rain[i] < 0:
+                shineGrid[start][end] += 1
 
+            i += 1
+print(rainGrid)
 max = 0
 for i in range(0,STATIONS):
-  for j in range(0,STATIONS):
-      if grid[i][j] > max:
-          max = grid[i][j]
+    for j in range(0,STATIONS):
+        if rainGrid[i][j] > max:
+            max = rainGrid[i][j]
+        if shineGrid[i][j] > max:
+            shineGrid = rainGrid[i][j]
 print(max)
 
 def darkness(d):
@@ -56,7 +64,23 @@ pts = []
 for i in range(0,STATIONS):
     for j in range(0,STATIONS):
         pts.append([i,j])
-        cs.append(darkness(grid[i][j]))
+        cs.append(darkness(shineGrid[i][j]))
+
+xs, ys = zip(*pts)
+
+plt.scatter(xs, ys, c = cs, s = 1000, edgecolors='none')
+plt.xlim(0, 150)
+plt.ylim(0, 150)
+plt.show()
+
+
+
+cs = []
+pts = []
+for i in range(0,STATIONS):
+    for j in range(0,STATIONS):
+        pts.append([i,j])
+        cs.append(darkness(rainGrid[i][j]))
 
 xs, ys = zip(*pts)
 
