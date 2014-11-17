@@ -33,4 +33,8 @@ def trip_hours():
       hour = int(date[3])
       yield hour, start, end
 
-
+def findMax(grid):
+  m = 0
+  for lst in grid:
+    m = max(m, max(lst))
+  return m

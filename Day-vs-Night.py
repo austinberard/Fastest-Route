@@ -16,18 +16,11 @@ for h, start, end in hubway.trip_hours():
 
 print(dayGrid)
 print(nightGrid)
-max = 0
-for i in range(0, hubway.STATIONS):
-    for j in range(0, hubway.STATIONS):
-        if dayGrid[i][j] > max:
-            max = dayGrid[i][j]
-        elif nightGrid[i][j] > max:
-            max = nightGrid[i][j]
+
+max = max(hubway.findMax(dayGrid), hubway.findMax(nightGrid))
 print(max)
 
-
 differenceGrid = hubway.initializeGrid(hubway.STATIONS)
-
 for i in range(0, hubway.STATIONS):
     for j in range(0, hubway.STATIONS):
         differenceGrid[i][j] = abs(dayGrid[i][j] - nightGrid[i][j])
@@ -42,6 +35,7 @@ for i in range(0, hubway.STATIONS):
     for j in range(0, hubway.STATIONS):
         pts.append([i,j])
         cs.append(darkness(dayGrid[i][j]))
+
 
 xs, ys = zip(*pts)
 
