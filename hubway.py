@@ -1,4 +1,5 @@
 import csv
+from datetime import datetime
 import gzip
 
 STATIONS = 150
@@ -11,7 +12,11 @@ def initializeGrid(size):
         grid[i].append(0)
   return grid
 
-def trip_hours():
+
+def time_from_stamp(stamp):
+  return datetime.strptime(stamp, "%m/%d/%Y %H:%M:%S")
+
+def trips():
   with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
     for row in csv.reader(csvfile, delimiter=","):
       if row[5] == "strt_statn":
@@ -19,19 +24,16 @@ def trip_hours():
       if row[5] == "" or row[7] == "":
         continue
 
-      start = int(row[5])
-      end = int(row[7])
-      if start > STATIONS or end > STATIONS:
-        print("Ouch "+str(start) + " " + str(end))
+      start_station = int(row[5])
+      end_station = int(row[7])
+      if start_station > STATIONS or end_station > STATIONS:
+        print("Ouch "+str(start_station) + " " + str(end_station))
         exit()
 
-      rawDate = row[4]
-      betterDate = rawDate.replace(" ", "/")
-      bettererDate = betterDate.replace(":", "/")
-      date = bettererDate.split("/")
+      start_time = time_from_stamp(row[4])
+      end_time = time_from_stamp(row[6])
 
-      hour = int(date[3])
-      yield hour, start, end
+      yield start_time, start_station, end_time, end_station
 
 def findMax(grid):
   m = 0

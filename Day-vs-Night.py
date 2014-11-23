@@ -7,11 +7,13 @@ import hubway
 dayGrid = hubway.initializeGrid(hubway.STATIONS)
 nightGrid = hubway.initializeGrid(hubway.STATIONS)
 
-for h, start, end in hubway.trip_hours():
-    if h in range(6, 18):
-        dayGrid[start][end] += 1
-    if h in range(18, 24) or h in range(0, 6):
-        nightGrid[start][end] += 1
+for stime, sstation, etime, estation in hubway.trips():
+    sh = stime.timetuple().tm_hour
+
+    if sh in range(6, 18):
+        dayGrid[sstation][estation] += 1
+    if sh in range(18, 24) or sh in range(0, 6):
+        nightGrid[sstation][estation] += 1
 
 
 print(dayGrid)
