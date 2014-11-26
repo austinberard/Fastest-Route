@@ -1,6 +1,7 @@
 import csv
 from datetime import datetime
 import gzip
+import re
 
 STATIONS = 150
 
@@ -14,7 +15,10 @@ def initializeGrid(size):
 
 
 def time_from_stamp(stamp):
-  return datetime.strptime(stamp, "%m/%d/%Y %H:%M:%S")
+  pp = re.compile(r'(\d{1})/(\d{2})/(\d{4}) (\d{2}):(\d{2})')
+  stamp1 = datetime(*map(int, pp.match(stamp).groups()))
+  return stamp1
+  # return datetime.strptime(stamp, "%m/%d/%Y %H:%M:%S")
 
 def trips():
   with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
