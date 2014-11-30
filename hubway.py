@@ -14,11 +14,14 @@ def initializeGrid(size):
   return grid
 
 
+map(int,["4", "5", "1"])
+[4,5,1]
+
+pp = re.compile(r'(\d+)/(\d+)/(\d{4}) (\d{2}):(\d{2})')
 def time_from_stamp(stamp):
-  pp = re.compile(r'(\d{1})/(\d{2})/(\d{4}) (\d{2}):(\d{2})')
-  stamp1 = datetime(*map(int, pp.match(stamp).groups()))
-  return stamp1
-  # return datetime.strptime(stamp, "%m/%d/%Y %H:%M:%S")
+  l = list(map(int, pp.match(stamp).groups()));
+  return datetime(l[2], l[0], l[1], l[3], l[4])
+  # Equivalent, but slow: return datetime.strptime(stamp, "%m/%d/%Y %H:%M:%S")
 
 def trips():
   with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
