@@ -14,9 +14,6 @@ def initializeGrid(size):
   return grid
 
 
-map(int,["4", "5", "1"])
-[4,5,1]
-
 pp = re.compile(r'(\d+)/(\d+)/(\d{4}) (\d{2}):(\d{2})')
 def time_from_stamp(stamp):
   l = list(map(int, pp.match(stamp).groups()));
