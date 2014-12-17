@@ -4,8 +4,8 @@ __author__ = 'Austin'
 import matplotlib.pyplot as plt
 import hubway
 
-dayGrid = hubway.initializeGrid(hubway.STATIONS)
-nightGrid = hubway.initializeGrid(hubway.STATIONS)
+dayGrid = hubway.initializeGrid()
+nightGrid = hubway.initializeGrid()
 
 for stime, sstation, etime, estation in hubway.trips():
     sh = stime.timetuple().tm_hour
@@ -22,7 +22,7 @@ print(nightGrid)
 max = max(hubway.findMax(dayGrid), hubway.findMax(nightGrid))
 print(max)
 
-differenceGrid = hubway.initializeGrid(hubway.STATIONS)
+differenceGrid = hubway.initializeGrid()
 for i in range(0, hubway.STATIONS):
     for j in range(0, hubway.STATIONS):
         differenceGrid[i][j] = abs(dayGrid[i][j] - nightGrid[i][j])
