@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 __author__ = 'Austin'
-import random
-import datetime
 
+import datetime
 import hubway
+import operator
 
 def average(l):
     return sum(l) / len(l)
@@ -56,15 +56,23 @@ class Flow:
     def __repr__(self):
         return repr(list(zip(self.inbound, self.outbound)))
 
-    # Consider defining these, so we could add, say, all of the hourly
-    # flows for a day up to get the flow for the whole day.
+    # With these you can add, say, all of the hourly flows for a day
+    # up to get the flow for the whole day.
 
-    # def __add__(self, other):
-    # def __iadd__(self, other):
-    # def __sub__(self, other):
-    # def __isub__(self, other):
-
-
+    def __add__(self, other):
+        return Flow(map(operator.add, self.inbound, other.inbound),
+                    map(operator.add, self.outbound, other.outbound))
+    def __iadd__(self, other):
+        self.inbound = map(operator.add, self.inbound, other.inbound)
+        self.outbound = map(operator.add, self.outbound, other.outbound)
+        return self
+    def __sub__(self, other):
+        return Flow(map(operator.sub, self.inbound, other.inbound),
+                    map(operator.sub, self.outbound, other.outbound))
+    def __isub__(self, other):
+        self.inbound = map(operator.sub, self.inbound, other.inbound)
+        self.outbound = map(operator.sub, self.outbound, other.outbound)
+        return self
 
 
     # Multiplication and division are defined for element-wise
@@ -78,6 +86,7 @@ class Flow:
     def __imul__(self, factor):
         self.inbound = [x * factor for x in self.inbound]
         self.outbound = [x * factor for x in self.outbound]
+        return self
 
     def __truediv__(self, factor):
         return Flow([x / factor for x in self.inbound],
@@ -87,6 +96,7 @@ class Flow:
     def __itruediv__(self, factor):
         self.inbound = [x / factor for x in self.inbound]
         self.outbound = [x / factor for x in self.outbound]
+        return self
 
     def errors(f1, f2):
         sq = sqerror(f1.inbound, f2.inbound) + \
@@ -164,17 +174,15 @@ if __name__ == "__main__":
     total = 0.0
     RUNS = 10
     while (RUNS > 0):
-        dt = datetime.datetime(2013, 11-RUNS, 21-RUNS)
+        dt = datetime.datetime(2013-(RUNS%3), 12-RUNS, 21-RUNS)
         hour = RUNS+4
         date = dt.date()
         real = Flow.real(date, hour)
 
         errs1 = real.errors(avgFlow)
         errs2 = real.errors(predict_for_hour_using_all(dt, hour))
-        print(errs1)
-        print(errs2)
 
-        print(" Improvements {:.2f} {:.2f}\n---"\
+        print(" Improvements {:.2f} {:.2f}"\
                   .format(errs1[0]-errs2[0], abs(errs1[1])-abs(errs2[1])));
 
         total += errs1[0]-errs2[0]
