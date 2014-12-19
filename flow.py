@@ -3,6 +3,7 @@ __author__ = 'Austin'
 
 import datetime
 import hubway
+import itertools
 import operator
 
 def average(l):
@@ -13,13 +14,11 @@ def normalize(l):
     return [x/avg for x in l]
 
 def poserror(l1, l2):
-    assert len(l1) == len(l2)
     return sum(l1)-sum(l2)
 
 def sqerror(l1, l2):
-    assert len(l1) == len(l2)
-    return sum(map(lambda p: (p[0]-p[1])**2 , zip(l1,l2)))
-
+    return sum(map(lambda p: (p[0]-p[1])**2,
+                   itertools.zip_longest(l1, l2, fillvalue=0)))
 
 def weekend(dt):
     dow = dt.weekday()
@@ -28,28 +27,40 @@ def weekend(dt):
 class Flow:
     def __init__(self, inb = None, outb = None):
         if inb == None:
-            inb = [0] * hubway.STATIONS
+            inb = []
         self.inbound = inb
 
         if outb == None:
-            outb = [0] * hubway.STATIONS
+            outb = []
         self.outbound = outb
+        assert len(self.inbound) == len(self.outbound)
+
+    def ensure(self, n):
+        l = len(self.inbound)
+        if l < n + 1:
+            tail = [0] * (1+n-l)
+            self.inbound.extend(tail)
+            self.outbound.extend(tail)
 
     def countStart(self, station):
+        self.ensure(station)
         self.outbound[station] += 1
 
     def countEnd(self, station):
+        self.ensure(station)
         self.inbound[station] += 1
 
     @classmethod
-    def real(cls, date, hour):
+    def forHour(cls, dt):
         flow = Flow()
+        day = dt.date()
+        last = dt + datetime.timedelta(hours=1)
         for stime, sstation, etime, estation in hubway.trips():
-            if stime.date() == date and stime.timetuple().tm_hour == hour:
+            if stime.date() == day and stime.timetuple().tm_hour == dt.hour:
                 flow.countStart(sstation)
-            if etime.date() == date and etime.timetuple().tm_hour == hour:
+            if etime.date() == day and etime.timetuple().tm_hour == dt.hour:
                 flow.countEnd(estation)
-            if stime.date() > date:
+            if stime > last:
                 break
         return flow
 
@@ -144,48 +155,49 @@ if __name__ == "__main__":
     avgFlow = allFlow / (365 * 3 * 24);
     print (str(avgFlow))
 
-    def predict_for_hour_using_hourly_data(hour, date):
-        f = factorsForHour[hour]
-        print("Multiplying by "+str(f)+" because in hour "+str(hour))
+    def predict_for_hour_using_hourly_data(dt):
+        f = factorsForHour[dt.hour]
+        print("Multiplying by "+str(f)+" because in hour "+str(dt.hour))
         return avgFlow * f
 
     # This seems like a nice, simple way to make predictions, but would
     # probably work poorly, because weekend usage has a different "shape"
     # than weekdays, rather than simply being related by a factor.
 
-    # def predict_for_hour_using_all(departure, hour, date):
-    #     d = dow_factor[hour];
-    #     h = hour_factor[hour];
-    #     m = month_factor[month];
+    # def predict_for_hour_using_all(departure, dt):
+    #     d = factorsForDow[dt.weekday()];
+    #     h = factorsForHour[dt.hour];
+    #     m = factorsForMonth[dt.month-1];
     #     return m * d * h * avgFlow;
 
-    def predict_for_hour_using_all(date, hour):
+    def predict_for_hour_using_all(dt):
         factors = factorsForHourOnWeekdays
-        if (weekend(date)):
+        if weekend(dt):
             factors = factorsForHourOnWeekend
-        f = factors[hour] * factorsForMonth[date.month-1] * factorsForYear[date.year-2011]
+        f = factors[dt.hour] * factorsForMonth[dt.month-1] * factorsForYear[dt.year-2011]
 
-        print("Multiplying by {:.2f} for {} {}:00 ({})"\
-                  .format(f, date.date(), hour,
-                          "Weekend" if weekend(date) else "Weekday"))
+        print("Multiplying by {:.2f} for {} ({})"\
+                  .format(f, dt, "Weekend" if weekend(dt) else "Weekday"))
         return avgFlow * f;
 
 
     total = 0.0
     RUNS = 10
     while (RUNS > 0):
-        dt = datetime.datetime(2013-(RUNS%3), 12-RUNS, 21-RUNS)
-        hour = RUNS+4
-        date = dt.date()
-        real = Flow.real(date, hour)
+        dt = datetime.datetime(2013-(RUNS%3), 12-RUNS, 21-RUNS, RUNS+4)
+        real = Flow.forHour(dt)
 
         errs1 = real.errors(avgFlow)
-        errs2 = real.errors(predict_for_hour_using_all(dt, hour))
+        errs2 = real.errors(predict_for_hour_using_all(dt))
 
-        print(" Improvements {:.2f} {:.2f}"\
-                  .format(errs1[0]-errs2[0], abs(errs1[1])-abs(errs2[1])));
+        print(" Improvement {:.2f} {:.0f}% {:.2f} {:.0f}%"\
+                  .format(errs1[0]-errs2[0],
+                          100 * (errs1[0]-errs2[0]) / errs1[0],
+                          abs(errs1[1])-abs(errs2[1]),
+                          100 * (abs(errs1[1])-abs(errs2[1])) / abs(errs1[1])
+                          ));
 
         total += errs1[0]-errs2[0]
         RUNS -= 1
 
-    print("Total improvement = {}".format(total))
+    print("Total improvement = {:.0f}".format(total))
