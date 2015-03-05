@@ -5,32 +5,43 @@ import datetime
 import hubway
 import itertools
 import operator
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import csv
+from scipy.ndimage import imread
+import hubway
+
 
 def average(l):
     return sum(l) / len(l)
+
 
 def normalize(l):
     avg = average(l)
     return [x/avg for x in l]
 
+
 def poserror(l1, l2):
     return sum(l1)-sum(l2)
+
 
 def sqerror(l1, l2):
     return sum(map(lambda p: (p[0]-p[1])**2,
                    itertools.zip_longest(l1, l2, fillvalue=0)))
 
+
 def weekend(dt):
     dow = dt.weekday()
-    return dow == 5 or dow == 6;
+    return dow == 5 or dow == 6
 
 class Flow:
-    def __init__(self, inb = None, outb = None):
-        if inb == None:
+    def __init__(self, inb=None, outb=None):
+        if inb is None:
             inb = []
         self.inbound = inb
 
-        if outb == None:
+        if outb is None:
             outb = []
         self.outbound = outb
         assert len(self.inbound) == len(self.outbound)
@@ -85,7 +96,6 @@ class Flow:
         self.outbound = map(operator.sub, self.outbound, other.outbound)
         return self
 
-
     # Multiplication and division are defined for element-wise
     # modification by a scalar, not for Flow * Flow.
 
@@ -98,7 +108,6 @@ class Flow:
         self.inbound = [x * factor for x in self.inbound]
         self.outbound = [x * factor for x in self.outbound]
         return self
-
     def __truediv__(self, factor):
         return Flow([x / factor for x in self.inbound],
                     [x / factor for x in self.outbound])
@@ -152,7 +161,7 @@ if __name__ == "__main__":
     for stime, sstation, etime, estation in hubway.trips():
         allFlow.countStart(sstation)
         allFlow.countEnd(estation)
-    avgFlow = allFlow / (365 * 3 * 24);
+    avgFlow = allFlow / (365 * 3 * 24)
     print (str(avgFlow))
 
     def predict_for_hour_using_hourly_data(dt):
@@ -178,13 +187,12 @@ if __name__ == "__main__":
 
         print("Multiplying by {:.2f} for {} ({})"\
                   .format(f, dt, "Weekend" if weekend(dt) else "Weekday"))
-        return avgFlow * f;
-
+        return avgFlow * f
 
     total = 0.0
     RUNS = 10
-    while (RUNS > 0):
-        dt = datetime.datetime(2013-(RUNS%3), 12-RUNS, 21-RUNS, RUNS+4)
+    while RUNS > 0:
+        dt = datetime.datetime(2013-(RUNS % 3), 12-RUNS, 21-RUNS, RUNS+4)
         real = Flow.forHour(dt)
 
         errs1 = real.errors(avgFlow)
@@ -195,9 +203,76 @@ if __name__ == "__main__":
                           100 * (errs1[0]-errs2[0]) / errs1[0],
                           abs(errs1[1])-abs(errs2[1]),
                           100 * (abs(errs1[1])-abs(errs2[1])) / abs(errs1[1])
-                          ));
+                          ))
 
         total += errs1[0]-errs2[0]
         RUNS -= 1
 
     print("Total improvement = {:.0f}".format(total))
+
+
+    ###################################################################################
+
+    with open("hubway_stations.csv") as csvfile2:
+        readCSV2 = csv.reader(csvfile2, delimiter = ",")
+        stations = []
+        for rows in readCSV2:
+            if rows[0] != 'id':     # Skip first line
+                stations.append([float(rows[4]), float(rows[5])])
+
+
+
+
+    # print(stations)
+    # put up the map
+    width = 647
+    height = 749
+    ne = [42.4045, -71.0357]
+    sw = [42.3095, -71.1465]
+
+    def ll_to_xy(pt):
+        pct = (pt[1]-sw[1]) / (ne[1]-sw[1])
+        x = width * pct
+        pct = (pt[0]-sw[0]) / (ne[0]-sw[0])
+        y = height * pct
+        return [x, y]
+
+    pts = [ll_to_xy(x) for x in stations]
+    # List comprehension
+
+    x1, y1 = zip(*pts)
+
+    for i in range(0, 24):
+        print(i)
+        print("#################################################################################")
+        dt = datetime.datetime(2013, 5, 15, i)
+        real = Flow.forHour(dt)
+
+        print(real.inbound)
+        print(real.outbound)
+
+        inbound = real.inbound
+        outbound = real.outbound
+        bIn = [0] * len(inbound)
+        colours = [0] * len(inbound)
+
+        for j in range(0, len(inbound)):
+            bIn[j] = (inbound[j] - outbound[j])
+            if (inbound[j] - outbound[j]) > 0:
+                colours[j] = "red"
+            elif (inbound[j] - outbound[j]) < 0:
+                colours[j] = "blue"
+            else:
+                colours[j] = "green"
+
+
+        print(bIn)
+
+        plt.xlim(0, 650)
+        plt.ylim(0, 750)
+        img = imread("map.png")
+        plt.imshow(img, zorder=0, extent=[0, 647, 0, 749])
+        plt.scatter(x1, y1, s=40, c=colours)
+        plt.title("Hour-" + str(i))
+        plt.savefig(str(i))
+        # plt.show()

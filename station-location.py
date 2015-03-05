@@ -6,6 +6,8 @@ import random
 import csv
 from scipy.ndimage import imread
 import gzip
+import flow
+import hubway
 
 with open("hubway_stations.csv") as csvfile2:
     readCSV2 = csv.reader(csvfile2, delimiter = ",")
@@ -47,50 +49,50 @@ plt.show()
 
 
 
-grid = []
-
-STATIONS = 150
-for i in range(0,STATIONS):
-    grid.append([])
-    for j in range(0,STATIONS):
-        grid[i].append(0)
-
-
-with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
-    for row in csv.reader(csvfile, delimiter=","):
-        if row[5] == "strt_statn":
-            continue
-        if row[5] == "" or row[7] == "":
-            continue
-        start = int(row[5])
-        end = int(row[7])
-
-        if start > STATIONS or end > STATIONS:
-            print("Ouch "+str(start) + " " + str(end))
-            exit()
-        grid[start][end] += 1
-
-
-max = 0
-for i in range(0,STATIONS):
-  for j in range(0,STATIONS):
-      if grid[i][j] > max:
-          max = grid[i][j]
-print(max)
-
-def darkness(d):
-    return str(1-(d/max))
-
-cs = []
-pts = []
-for i in range(0,STATIONS):
-    for j in range(0,STATIONS):
-        pts.append([i,j])
-        cs.append(darkness(grid[i][j]))
-
-xs, ys = zip(*pts)
-
-plt.scatter(xs, ys, c = cs, s = 4, edgecolors='none')
-plt.xlim(0, 150)
-plt.ylim(0, 150)
-plt.show()
+# grid = []
+#
+# STATIONS = 150
+# for i in range(0,STATIONS):
+#     grid.append([])
+#     for j in range(0,STATIONS):
+#         grid[i].append(0)
+#
+#
+# with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
+#     for row in csv.reader(csvfile, delimiter=","):
+#         if row[5] == "strt_statn":
+#             continue
+#         if row[5] == "" or row[7] == "":
+#             continue
+#         start = int(row[5])
+#         end = int(row[7])
+#
+#         if start > STATIONS or end > STATIONS:
+#             print("Ouch "+str(start) + " " + str(end))
+#             exit()
+#         grid[start][end] += 1
+#
+#
+# max = 0
+# for i in range(0,STATIONS):
+#   for j in range(0,STATIONS):
+#       if grid[i][j] > max:
+#           max = grid[i][j]
+# print(max)
+#
+# def darkness(d):
+#     return str(1-(d/max))
+#
+# cs = []
+# pts = []
+# for i in range(0,STATIONS):
+#     for j in range(0,STATIONS):
+#         pts.append([i,j])
+#         cs.append(darkness(grid[i][j]))
+#
+# xs, ys = zip(*pts)
+#
+# plt.scatter(xs, ys, c = cs, s = 4, edgecolors='none')
+# plt.xlim(0, 150)
+# plt.ylim(0, 150)
+# plt.show()

@@ -176,7 +176,7 @@ if __name__ == "__main__":
     hourGridList = []
     weekGridList = []
     count = 0
-    RUNS = 1
+    RUNS = 100
     while(count < RUNS):
         randYear = random.randint(2011, 2013)
         randMonth = random.randint(1, 12)
