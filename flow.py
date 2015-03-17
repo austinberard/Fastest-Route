@@ -14,6 +14,8 @@ import hubway
 import random
 
 from sklearn import linear_model
+from sklearn import svm
+from sklearn.ensemble import RandomForestClassifier
 
 def average(l):
     return sum(l) / len(l)
@@ -229,37 +231,79 @@ if __name__ == "__main__":
             results.append(value)
         RUNS -= 1
 
+    dt = datetime.datetime(2013-(RUNS % 3), 12-RUNS, 21-RUNS, RUNS+4)
+    year = dt.year
+    doy = dt.timetuple().tm_yday
+    dow = dt.weekday()
+    hour = dt.hour
+    isWkEnd = weekend(dt)
+    station = random.randint(1, 150)
+
+    print(results[station - 1])
+
     clf = linear_model.LinearRegression()
     clf.fit(samples, results)
     print(clf.coef_)
+    print(clf.predict([year, doy, dow, hour, isWkEnd, station]))
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
-    def test_machine(coefs):
-        dt = datetime.datetime(2013-(RUNS % 3), 12-RUNS, 21-RUNS, RUNS+4)
-        print(dt)
-        yearTest = dt.year
-        print(yearTest)
-        doyTest = dt.timetuple().tm_yday
-        print(doyTest)
-        dowTest = dt.weekday()
-        print(dowTest)
-        hourTest = dt.hour
-        print(hourTest)
-        isWkEndTest = weekend(dt)
-        print(isWkEndTest)
-        station = random.randint(1, 150)
-        print(station)
+    clf = linear_model.Lasso(alpha = 0.1)
+    clf.fit(samples, results)
+    print(clf.coef_)
+    print(clf.predict([year, doy, dow, hour, isWkEnd, station]))
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
-        total = (yearTest * clf.coef_[0]) \
-              + (doyTest * clf.coef_[1]) \
-              + (dowTest * clf.coef_[2]) \
-              + (hourTest * clf.coef_[3]) \
-              + (isWkEndTest * clf.coef_[4]) \
-              + (isWkEndTest * clf.coef_[5])
+    clf = linear_model.LassoLars(alpha=.1)
+    clf.fit(samples, results)
+    print(clf.coef_)
+    print(clf.predict([year, doy, dow, hour, isWkEnd, station]))
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
-        print(total)
+    clf = linear_model.Ridge (alpha = .5)
+    clf.fit(samples, results)
+    print(clf.coef_)
+    print(clf.predict([year, doy, dow, hour, isWkEnd, station]))
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
+    clf = svm.SVR()
+    clf.fit(samples, results)
+    print(clf.predict([year, doy, dow, hour, isWkEnd, station]))
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
-    test_machine(clf.coef_)
+    clf = RandomForestClassifier(n_estimators=10)
+    clf.fit(samples, results)
+    print(clf.predict([year, doy, dow, hour, isWkEnd, station]))
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+
+    print
+
+    # def test_machine(coefs):
+    #     dt = datetime.datetime(2013-(RUNS % 3), 12-RUNS, 21-RUNS, RUNS+4)
+    #     print(dt)
+    #     yearTest = dt.year
+    #     print(yearTest)
+    #     doyTest = dt.timetuple().tm_yday
+    #     print(doyTest)
+    #     dowTest = dt.weekday()
+    #     print(dowTest)
+    #     hourTest = dt.hour
+    #     print(hourTest)
+    #     isWkEndTest = weekend(dt)
+    #     print(isWkEndTest)
+    #     station = random.randint(1, 150)
+    #     print(station)
+    #
+    #     total = (yearTest * clf.coef_[0]) \
+    #           + (doyTest * clf.coef_[1]) \
+    #           + (dowTest * clf.coef_[2]) \
+    #           + (hourTest * clf.coef_[3]) \
+    #           + (isWkEndTest * clf.coef_[4]) \
+    #           + (isWkEndTest * clf.coef_[5])
+    #
+    #     print(total)
+    #
+    #
+    # test_machine(clf.coef_)
 
 
 def make_maps():
