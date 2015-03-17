@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import csv
 from scipy.ndimage import imread
 import hubway
+import random
 
 from sklearn import linear_model
 
@@ -207,8 +208,8 @@ if __name__ == "__main__":
 
     total = 0.0
     RUNS = 10
-    samples = [];
-    results = [];
+    samples = []
+    results = []
     while RUNS > 0:
         dt = datetime.datetime(2013-(RUNS % 3), 12-RUNS, 21-RUNS, RUNS+4)
         real = Flow.forHour(dt)
@@ -217,21 +218,48 @@ if __name__ == "__main__":
 
         year = dt.year
         doy = dt.timetuple().tm_yday
-        dow = dt.weekday();
-        hour =  dt.hour
+        dow = dt.weekday()
+        hour = dt.hour
         isWkEnd = weekend(dt)
 
-        
         for station, value in enumerate(real.outbound):
-            print ("%s, %s, %s, %s, %s, %s : %s" %
-                   (year, doy, dow, hour, isWkEnd, station, value))
-            samples.append([year, doy, dow, hour, isWkEnd, station]);
-            results.append(value);
+            print("%s, %s, %s, %s, %s, %s : %s" %
+                 (year, doy, dow, hour, isWkEnd, station, value))
+            samples.append([year, doy, dow, hour, isWkEnd, station])
+            results.append(value)
         RUNS -= 1
 
     clf = linear_model.LinearRegression()
-    clf.fit (samples, results)
+    clf.fit(samples, results)
     print(clf.coef_)
+
+    def test_machine(coefs):
+        dt = datetime.datetime(2013-(RUNS % 3), 12-RUNS, 21-RUNS, RUNS+4)
+        print(dt)
+        yearTest = dt.year
+        print(yearTest)
+        doyTest = dt.timetuple().tm_yday
+        print(doyTest)
+        dowTest = dt.weekday()
+        print(dowTest)
+        hourTest = dt.hour
+        print(hourTest)
+        isWkEndTest = weekend(dt)
+        print(isWkEndTest)
+        station = random.randint(1, 150)
+        print(station)
+
+        total = (yearTest * clf.coef_[0]) \
+              + (doyTest * clf.coef_[1]) \
+              + (dowTest * clf.coef_[2]) \
+              + (hourTest * clf.coef_[3]) \
+              + (isWkEndTest * clf.coef_[4]) \
+              + (isWkEndTest * clf.coef_[5])
+
+        print(total)
+
+
+    test_machine(clf.coef_)
 
 
 def make_maps():
