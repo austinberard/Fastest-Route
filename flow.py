@@ -217,7 +217,8 @@ if __name__ == "__main__":
                       100 * (abs(errs1[1])-abs(errs2[1])) / abs(errs1[1])
                   ))
 
-    sample_trips = hubway.trip_sample(100):
+    RUNS = 1000
+    sample_trips = hubway.trip_sample(RUNS): # Remember to make this random
     samples = [];
     results = []
     
