@@ -371,7 +371,9 @@ def make_maps():
         plt.ylim(0, 750)
         img = imread("map.png")
         plt.imshow(img, zorder=0, extent=[0, 647, 0, 749])
-        plt.scatter(x1, y1, s=40, c=colours)
+        plt.scatter(x1, y1, s=40, c=colours, edgecolors='none')
         plt.title("Hour-" + str(i))
         plt.savefig("month-%02d" % i)
-        # plt.show()
+        plt.show()
+
+make_maps()
