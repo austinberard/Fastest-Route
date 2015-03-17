@@ -44,6 +44,10 @@ def trips():
       cached_trips.append([start_time, start_station, end_time, end_station])
   return cached_trips
 
+def trip_sample(n):
+  return trips[0:n]
+  
+
 def findMax(grid):
   m = 0
   for lst in grid:

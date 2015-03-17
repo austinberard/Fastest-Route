@@ -134,6 +134,15 @@ class Flow:
             poserror(f1.outbound, f2.outbound)
         return sq, pos
 
+class FactorModel:
+    def fit(self, samples, results):
+        pass
+
+    def predict(sample):
+        return predict_for_hour_using_all(dt_from_the_sample)
+
+
+
 if __name__ == "__main__":
     monthBins = [0] * 12
     hourBins = [0] * 24
@@ -208,15 +217,12 @@ if __name__ == "__main__":
                       100 * (abs(errs1[1])-abs(errs2[1])) / abs(errs1[1])
                   ))
 
-    total = 0.0
-    RUNS = 10
-    samples = []
+    sample_trips = hubway.trip_sample(100):
+    samples = [];
     results = []
-    while RUNS > 0:
-        dt = datetime.datetime(2013-(RUNS % 3), 12-RUNS, 21-RUNS, RUNS+4)
-        real = Flow.forHour(dt)
-#        prediction = predict_for_hour_using_all(dt)
-#        compare(real, prediction)
+    
+    for sample in samples:
+        dt = sample_trips[0]
 
         year = dt.year
         doy = dt.timetuple().tm_yday
@@ -229,53 +235,35 @@ if __name__ == "__main__":
                  (year, doy, dow, hour, isWkEnd, station, value))
             samples.append([year, doy, dow, hour, isWkEnd, station])
             results.append(value)
-        RUNS -= 1
 
-    dt = datetime.datetime(2013-(RUNS % 3), 12-RUNS, 21-RUNS, RUNS+4)
-    year = dt.year
-    doy = dt.timetuple().tm_yday
-    dow = dt.weekday()
-    hour = dt.hour
-    isWkEnd = weekend(dt)
-    station = random.randint(1, 150)
 
-    print(results[station - 1])
+    test_samples = samples[0:len(samples)]
+    held_samples = samples[len(samples):]
+    test_results = results[0:len(results)]
+    held_results = results[len(results):]
 
-    clf = linear_model.LinearRegression()
-    clf.fit(samples, results)
-    print(clf.coef_)
-    print(clf.predict([year, doy, dow, hour, isWkEnd, station]))
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    models = [
+        linear_model.LinearRegression(),
+        linear_model.Lasso(alpha = 0.1),
+        linear_model.LassoLars(alpha = 0.1),
+        svm.SVR(),
+        RandomForestClassifier(n_estimators=10)
+        FactorModel()
+    ];
 
-    clf = linear_model.Lasso(alpha = 0.1)
-    clf.fit(samples, results)
-    print(clf.coef_)
-    print(clf.predict([year, doy, dow, hour, isWkEnd, station]))
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    models.extend([ linear_model.Ridge(alpha=a) for a in [0.2, 0.4, 0.6, 0.8] ]
 
-    clf = linear_model.LassoLars(alpha=.1)
-    clf.fit(samples, results)
-    print(clf.coef_)
-    print(clf.predict([year, doy, dow, hour, isWkEnd, station]))
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
-    clf = linear_model.Ridge (alpha = .5)
-    clf.fit(samples, results)
-    print(clf.coef_)
-    print(clf.predict([year, doy, dow, hour, isWkEnd, station]))
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-
-    clf = svm.SVR()
-    clf.fit(samples, results)
-    print(clf.predict([year, doy, dow, hour, isWkEnd, station]))
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-
-    clf = RandomForestClassifier(n_estimators=10)
-    clf.fit(samples, results)
-    print(clf.predict([year, doy, dow, hour, isWkEnd, station]))
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-
-    print
+    for model in models:
+        m = model
+        print (str(m))
+        m.fit(test_samples, test_results)
+        for held in held_samples:
+            prediction = m.predict([year, doy, dow, hour, isWkEnd, station])
+            print(prediction)
+            actual = Flow.forHour(make_dt_from(year, doy, hour)).outbound[station]
+            error += (prediction-actual)**2;
+        print("Error = "+str(error)+"\n")
 
     # def test_machine(coefs):
     #     dt = datetime.datetime(2013-(RUNS % 3), 12-RUNS, 21-RUNS, RUNS+4)
@@ -376,4 +364,4 @@ def make_maps():
         plt.savefig("month-%02d" % i)
         plt.show()
 
-make_maps()
+#make_maps()
