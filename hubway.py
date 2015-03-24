@@ -2,6 +2,7 @@ import csv
 from datetime import datetime
 import gzip
 import re
+import random
 
 STATIONS = 150
 
@@ -44,8 +45,19 @@ def trips():
       cached_trips.append([start_time, start_station, end_time, end_station])
   return cached_trips
 
+random_trips[]
+#random_indexes = set()
+random_indexes[]
 def trip_sample(n):
-  return trips[0:n]
+  for i in range(0,n):
+    random_index = randrange(0,len(cached_trips))
+    if random_index not in random_indexes:
+      #random_indexes.update(random_index) TODO see if this works
+      random_indexes.append(random_index)
+      randomtrips.append(cached_trips[random_index])
+    else:
+      pass
+#  return cached_trips[0:n]
   
 
 def findMax(grid):
