@@ -50,7 +50,7 @@ random_trips[]
 random_indexes[]
 def trip_sample(n):
   for i in range(0,n):
-    random_index = randrange(0,len(cached_trips))
+    random_index = randrange(1,len(cached_trips))
     if random_index not in random_indexes:
       #random_indexes.update(random_index) TODO see if this works
       random_indexes.append(random_index)
