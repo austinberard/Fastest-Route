@@ -139,7 +139,7 @@ class FactorModel:
         pass
 
     def predict(sample):
-        return predict_for_hour_using_all(dt_from_the_sample)
+        return predict_for_hour_using_all(datetime.datetime(sample))
 
 
 
@@ -248,11 +248,11 @@ if __name__ == "__main__":
         linear_model.Lasso(alpha = 0.1),
         linear_model.LassoLars(alpha = 0.1),
         svm.SVR(),
-        RandomForestClassifier(n_estimators=10)
+        RandomForestClassifier(n_estimators=10),
         FactorModel()
-    ];
+    ]
 
-    models.extend([ linear_model.Ridge(alpha=a) for a in [0.2, 0.4, 0.6, 0.8] ]
+    models.extend([linear_model.Ridge(alpha=a) for a in [0.2, 0.4, 0.6, 0.8]])
 
 
     for model in models:
