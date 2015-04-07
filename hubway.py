@@ -45,22 +45,6 @@ def trips():
       cached_trips.append([start_time, start_station, end_time, end_station])
   return cached_trips
 
-random_trips = []
-#random_indexes = set()
-random_indexes = []
-def trip_sample(n):
-    for i in range(0,n):
-        random_index = random.randint(1, len(cached_trips))
-        if random_index not in random_indexes:
-            #random_indexes.update(random_index) TODO see if this works
-            random_indexes.append(random_index)
-            random_trips.append(cached_trips[random_index])
-        else:
-            pass
-    return random_trips
-#  return cached_trips[0:n]
-  
-
 def findMax(grid):
   m = 0
   for lst in grid:

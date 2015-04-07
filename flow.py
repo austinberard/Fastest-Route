@@ -78,6 +78,16 @@ class Flow:
                 break
         return flow
 
+    def outgoing(self, station):
+        if station >= len(self.outbound):
+            return 0
+        return self.outbound[station]
+    def incoming(self, station):
+        if station >= len(self.inbound):
+            return 0
+        return self.inbound[station]
+
+
     def __repr__(self):
         return repr(list(zip(self.inbound, self.outbound)))
 
@@ -217,13 +227,13 @@ if __name__ == "__main__":
                       100 * (abs(errs1[1])-abs(errs2[1])) / abs(errs1[1])
                   ))
 
-    RUNS = 1000
-    sample_trips = hubway.trip_sample(RUNS): # Remember to make this random
+    SAMPLES = 10
+    sample_trips = random.sample(hubway.trips(), SAMPLES)
     samples = [];
     results = []
     
-    for sample in samples:
-        dt = sample_trips[0]
+    for trip in sample_trips:
+        dt = trip[0]
 
         year = dt.year
         doy = dt.timetuple().tm_yday
@@ -231,17 +241,19 @@ if __name__ == "__main__":
         hour = dt.hour
         isWkEnd = weekend(dt)
 
-        for station, value in enumerate(real.outbound):
+        for station, value in enumerate(allFlow.outbound):
             print("%s, %s, %s, %s, %s, %s : %s" %
                  (year, doy, dow, hour, isWkEnd, station, value))
             samples.append([year, doy, dow, hour, isWkEnd, station])
             results.append(value)
 
+    print (len(samples))
 
-    test_samples = samples[0:len(samples)]
-    held_samples = samples[len(samples):]
-    test_results = results[0:len(results)]
-    held_results = results[len(results):]
+    test_samples = samples[0:len(samples)//2]
+    held_samples = samples[len(samples)//2:]
+
+    test_results = results[0:len(results)//2]
+    held_results = results[len(results)//2:]
 
     models = [
         linear_model.LinearRegression(),
@@ -259,10 +271,16 @@ if __name__ == "__main__":
         m = model
         print (str(m))
         m.fit(test_samples, test_results)
+        error = 0
+        print ("Held samples = "+len(held_samples))
         for held in held_samples:
+            [year, doy, dow, hour, isWkEnd, station] = held
             prediction = m.predict([year, doy, dow, hour, isWkEnd, station])
             print(prediction)
-            actual = Flow.forHour(make_dt_from(year, doy, hour)).outbound[station]
+            newyear = datetime.datetime(year, 1, 1);
+            td = datetime.timedelta(days=doy-1, hours=hour);
+            print (newyear, doy, hour, td, newyear+td);
+            actual = Flow.forHour(newyear+td).outgoing(station)
             error += (prediction-actual)**2;
         print("Error = "+str(error)+"\n")
 
