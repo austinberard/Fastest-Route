@@ -4,11 +4,11 @@ __author__ = 'Austin'
 import matplotlib.pyplot as plt
 import csv
 import gzip
-import library
+import hubway
 
 STATIONS = 150
-morningGrid = library.initializeGrid(STATIONS)
-eveningGrid = library.initializeGrid(STATIONS)
+morningGrid = hubway.initializeGrid(STATIONS)
+eveningGrid = hubway.initializeGrid(STATIONS)
 
 
 with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:

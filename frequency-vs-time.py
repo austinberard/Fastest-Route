@@ -89,11 +89,15 @@ plt.plot(daySmooth, tripSmooth)
 
 plt.xlim(0, 365)
 plt.ylim(0, arrayTrips.max())
+plt.xlabel("Day of Year")
+plt.ylabel("Number of Trips")
 plt.show()
 
 plt.scatter(arrayNoRainTs, arrayNoRainTrips, color='blue')
 plt.scatter(arrayRainTs, arrayRainTrips, color='red')
 plt.xlim(0, 100)
 plt.ylim(0, (arrayTrips.max() + 100))
+plt.xlabel("Day of Year")
+plt.ylabel("Number of Trips")
 plt.show()
 

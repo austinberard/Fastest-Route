@@ -1,6 +1,7 @@
 __author__ = 'Austin'
 from urllib.request import urlopen
 import simplejson
+import re
 
 
 def Directions(start, end, mode):
@@ -12,8 +13,8 @@ def Directions(start, end, mode):
     duration = (data['routes'][0]['legs'][0]['duration'])
     print(duration['text'])
     for step in data['routes'][0]['legs'][0]['steps']:
-        print(step['html_instructions'])
+        print(re.sub('<[^<]+?>', '', step['html_instructions']))
 
 
 
-Directions("42.340021,-71.100812", "woonsocket", "bicycle")
+# Directions("42.3426261192002,-71.095690425241", "providence", "bicycle")

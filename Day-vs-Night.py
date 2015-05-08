@@ -75,7 +75,6 @@ for i in range(0, hubway.STATIONS):
         cs.append(darkness(differenceGrid[i][j]))
 
 xs, ys = zip(*pts)
-
 plt.scatter(xs, ys, c = cs, s = 4, edgecolors='none')
 plt.xlim(0, 150)
 plt.ylim(0, 150)
