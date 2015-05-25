@@ -10,7 +10,6 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import csv
 from scipy.ndimage import imread
-import hubway
 import random
 import time
 start_time = time.time()
@@ -18,6 +17,7 @@ start_time = time.time()
 from sklearn import linear_model
 from sklearn import svm
 from sklearn.ensemble import RandomForestClassifier
+
 
 def average(l):
     return sum(l) / len(l)
@@ -36,9 +36,11 @@ def sqerror(l1, l2):
     return sum(map(lambda p: (p[0]-p[1])**2,
                    zip_longest(l1, l2, fillvalue=0)))
 
+
 def weekend(dt):
     dow = dt.weekday()
     return dow == 5 or dow == 6
+
 
 class Flow:
     def __init__(self, inb=None, outb=None):
@@ -84,11 +86,11 @@ class Flow:
         if station >= len(self.outbound):
             return 0
         return self.outbound[station]
+
     def incoming(self, station):
         if station >= len(self.inbound):
             return 0
         return self.inbound[station]
-
 
     def __repr__(self):
         return repr(list(zip(self.inbound, self.outbound)))
@@ -103,6 +105,7 @@ class Flow:
                     list(starmap(operator.add,
                                  zip_longest(self.outbound, other.outbound,
                                              fillvalue=0)))),
+
     def __iadd__(self, other):
         self.inbound = list(starmap(operator.add,
                                     zip_longest(self.inbound, other.inbound,
@@ -111,9 +114,11 @@ class Flow:
                                      zip_longest(self.outbound, other.outbound,
                                                  fillvalue=0)))
         return self
+
     def __sub__(self, other):
         return Flow(list(map(operator.sub, self.inbound, other.inbound)),
                     list(map(operator.sub, self.outbound, other.outbound)))
+
     def __isub__(self, other):
         self.inbound = list(map(operator.sub, self.inbound, other.inbound))
         self.outbound = list(map(operator.sub, self.outbound, other.outbound))
@@ -125,15 +130,19 @@ class Flow:
     def __mul__(self, factor):
         return Flow([x * factor for x in self.inbound],
                     [x * factor for x in self.outbound])
+
     def __rmul__(self, factor):
         return self * factor
+
     def __imul__(self, factor):
         self.inbound = [x * factor for x in self.inbound]
         self.outbound = [x * factor for x in self.outbound]
         return self
+
     def __truediv__(self, factor):
         return Flow([x / factor for x in self.inbound],
                     [x / factor for x in self.outbound])
+
     def __itruediv__(self, factor):
         self.inbound = [x / factor for x in self.inbound]
         self.outbound = [x / factor for x in self.outbound]
@@ -146,14 +155,13 @@ class Flow:
             poserror(f1.outbound, f2.outbound)
         return sq, pos
 
+
 class FactorModel:
     def fit(self, samples, results):
         pass
 
     def predict(sample):
         return predict_for_hour_using_all(datetime.datetime(sample))
-
-
 
 if __name__ == "__main__":
     monthBins = [0] * 12
@@ -173,7 +181,6 @@ if __name__ == "__main__":
         y = stime.timetuple().tm_year - 2011
         yearBins[y] += 1
 
-
     factorsForMonth = normalize(monthBins)
     factorsForHour = normalize(hourBins)
     factorsForHourOnWeekdays = normalize(weekdayBins)
@@ -184,7 +191,6 @@ if __name__ == "__main__":
     # print(factorsForHourOnWeekdays)
     # print(factorsForHourOnWeekend)
     # print(factorsForYear)
-
 
     allFlow = Flow()
     for stime, sstation, etime, estation in hubway.trips():
@@ -212,21 +218,22 @@ if __name__ == "__main__":
         if weekend(dt):
             factors = factorsForHourOnWeekend
 
-        f = factors[dt.hour] * factorsForMonth[dt.month-1] * factorsForYear[dt.year-2011]
+        f = factors[dt.hour] *\
+            factorsForMonth[dt.month-1] *\
+            factorsForYear[dt.year-2011]
 
-        print("Multiplying by {:.2f} for {} ({})"\
-                  .format(f, dt, "Weekend" if weekend(dt) else "Weekday"))
+        print("Multiplying by {:.2f} for {} ({})"
+              .format(f, dt, "Weekend" if weekend(dt) else "Weekday"))
         return avgFlow * f
 
     def compare(real, prediction):
         errs1 = real.errors(avgFlow)
         errs2 = real.errors(prediction)
-        print(" Improvement {:.2f} {:.0f}% {:.2f} {:.0f}%"\
+        print(" Improvement {:.2f} {:.0f}% {:.2f} {:.0f}%"
               .format(errs1[0]-errs2[0],
                       100 * (errs1[0]-errs2[0]) / errs1[0],
                       abs(errs1[1])-abs(errs2[1]),
-                      100 * (abs(errs1[1])-abs(errs2[1])) / abs(errs1[1])
-                  ))
+                      100 * (abs(errs1[1])-abs(errs2[1])) / abs(errs1[1])))
 
     SAMPLES = 10
     sample_trips = random.sample(hubway.trips(), SAMPLES)
@@ -264,15 +271,14 @@ if __name__ == "__main__":
 
     models = [
         linear_model.LinearRegression(),
-        linear_model.Lasso(alpha = 0.1),
-        linear_model.LassoLars(alpha = 0.1),
+        linear_model.Lasso(alpha=0.1),
+        linear_model.LassoLars(alpha=0.1),
         svm.SVR(),
         RandomForestClassifier(n_estimators=10)
         # FactorModel()
     ]
 
-    # models.extend([linear_model.Ridge(alpha=a) for a in [0.2, 0.4, 0.6, 0.8]])
-    print("11111111111111111111111111111111111111111111111111111111111111111111111")
+    # models.extend([linear_model.Ridge(alpha=a) for a in [0.2,0.4,0.6,0.8]])
     print(held_samples)
     for model in models:
         m = model
@@ -294,16 +300,14 @@ if __name__ == "__main__":
         print("Relative Square Error = " + str(error/len(held_samples)) + "\n")
     print("--- %s seconds ---" % (time.time() - start_time))
 
+
 def make_maps():
     with open("hubway_stations.csv") as csvfile2:
-        readCSV2 = csv.reader(csvfile2, delimiter = ",")
+        readCSV2 = csv.reader(csvfile2, delimiter=",")
         stations = []
         for rows in readCSV2:
             if rows[0] != 'id':     # Skip first line
                 stations.append([float(rows[4]), float(rows[5])])
-
-
-
 
     # print(stations)
     # put up the map
@@ -326,10 +330,8 @@ def make_maps():
 
     for i in range(0, 24):
         print(i)
-        print("#################################################################################")
-
         real = Flow()
-        for d in range(1,30):
+        for d in range(1, 30):
             dt = datetime.datetime(2013, 5, d, i)
             if not weekend(dt):
                 f = Flow.forHour(dt)
@@ -352,7 +354,6 @@ def make_maps():
             else:
                 colours[j] = "green"
 
-
         print(bIn)
 
         plt.xlim(0, 650)
@@ -364,4 +365,4 @@ def make_maps():
         plt.savefig("month-%02d" % i)
         plt.show()
 
-#make_maps()
+# make_maps()

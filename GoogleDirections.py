@@ -16,5 +16,4 @@ def Directions(start, end, mode):
         print(re.sub('<[^<]+?>', '', step['html_instructions']))
 
 
-
 # Directions("42.3426261192002,-71.095690425241", "providence", "bicycle")

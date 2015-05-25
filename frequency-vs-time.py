@@ -9,10 +9,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.interpolate import spline
 
-
-
 last_date = None
 last_day = None
+
+
 def dayNum(date):
     global last_date
     global last_day
@@ -100,4 +100,3 @@ plt.ylim(0, (arrayTrips.max() + 100))
 plt.xlabel("Day of Year")
 plt.ylabel("Number of Trips")
 plt.show()
-
