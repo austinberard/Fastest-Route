@@ -7,7 +7,7 @@ test = defaultdict(lambda: 0)
 tot = 0
 agetot = 0
 
-with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
+with gzip.open("~/Data/hubway_trips.csv.gz", mode='rt') as csvfile:
     for row in csv.reader(csvfile, delimiter=","):
         if row[5] == "strt_statn":
             continue
