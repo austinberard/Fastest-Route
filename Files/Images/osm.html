@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+   <link rel="stylesheet" href="https://rawgit.com/andrewgiessel/leafletstuff/master/leaflet.css" />
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+   <link rel="stylesheet" href="https://rawgit.com/lvoogdt/Leaflet.awesome-markers/2.0/develop/dist/leaflet.awesome-markers.css">
+   <script src="https://rawgithub.com/lvoogdt/Leaflet.awesome-markers/2.0/develop/dist/leaflet.awesome-markers.js"></script>
+
+
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.css">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster-src.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster.js"></script>
+
+   <link rel="stylesheet" href="https://birdage.github.io/Leaflet.awesome-markers/dist/leaflet.awesome.rotate.css">
+
+   
+   
+   
+   
+
+   <style>
+
+      html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        position:absolute;
+        top:0;
+        bottom:0;
+        right:0;
+        left:0;
+      }
+
+   </style>
+</head>
+
+<body>
+
+   <div class="folium-map" id="folium_b4d2aded8bbc4dd590288fd61e89708f" style="width: 100%; height: 100%"></div>
+
+   <script>
+
+      
+
+      var base_tile = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 18,
+          minZoom: 1,
+          attribution: 'Map data (c) <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+      });
+
+      var baseLayer = {
+        "Base Layer": base_tile
+      };
+
+      /*
+      addition of the wms layers
+      */
+
+      
+
+      /*
+      addition of the tile layers
+      */
+      
+
+      /*
+      list of layers to be added
+      */
+      var layer_list = {
+      
+      };
+
+      /*
+      Bounding box.
+      */
+      var southWest = L.latLng(-90, -180),
+          northEast = L.latLng(90, 180),
+          bounds = L.latLngBounds(southWest, northEast);
+
+      /*
+      Creates the map and adds the selected layers
+      */
+      var map = L.map('folium_b4d2aded8bbc4dd590288fd61e89708f', {
+                                       center:[42.357, -71.09110000000001],
+                                       zoom: 13,
+                                       maxBounds: bounds,
+                                       layers: [base_tile]
+                                     });
+
+      L.control.layers(baseLayer, layer_list).addTo(map);
+
+      /*
+      addition of the image layers
+      */
+      
+      
+      //cluster group
+      var clusteredmarkers = L.markerClusterGroup();
+      //section for adding clustered markers
+      
+      //add the clustered markers to the group anyway
+      map.addLayer(clusteredmarkers);
+
+      
+      var marker_1_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_1 = L.marker([42.340021, 
+							-71.100812],
+							{'icon':marker_1_icon}
+							);
+      marker_1.bindPopup("Colleges of the Fenway");
+      marker_1._popup.options.maxWidth = 300;
+      map.addLayer(marker_1)
+      
+      var marker_2_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_2 = L.marker([42.345392, 
+							-71.069616],
+							{'icon':marker_2_icon}
+							);
+      marker_2.bindPopup("Tremont St. at Berkeley St.");
+      marker_2._popup.options.maxWidth = 300;
+      map.addLayer(marker_2)
+      
+      var marker_3_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_3 = L.marker([42.341814, 
+							-71.090179],
+							{'icon':marker_3_icon}
+							);
+      marker_3.bindPopup("Northeastern U / North Parking Lot");
+      marker_3._popup.options.maxWidth = 300;
+      map.addLayer(marker_3)
+      
+      var marker_4_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_4 = L.marker([42.361285, 
+							-71.06514],
+							{'icon':marker_4_icon}
+							);
+      marker_4.bindPopup("Cambridge St. at Joy St.");
+      marker_4._popup.options.maxWidth = 300;
+      map.addLayer(marker_4)
+      
+      var marker_5_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_5 = L.marker([42.353412, 
+							-71.044624],
+							{'icon':marker_5_icon}
+							);
+      marker_5.bindPopup("Fan Pier");
+      marker_5._popup.options.maxWidth = 300;
+      map.addLayer(marker_5)
+      
+      var marker_6_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_6 = L.marker([42.353334, 
+							-71.137313],
+							{'icon':marker_6_icon}
+							);
+      marker_6.bindPopup("Union Square - Brighton Ave. at Cambridge St.");
+      marker_6._popup.options.maxWidth = 300;
+      map.addLayer(marker_6)
+      
+      var marker_7_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_7 = L.marker([42.351313, 
+							-71.116174],
+							{'icon':marker_7_icon}
+							);
+      marker_7.bindPopup("Agganis Arena - 925 Comm Ave.");
+      marker_7._popup.options.maxWidth = 300;
+      map.addLayer(marker_7)
+      
+      var marker_8_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_8 = L.marker([42.350075, 
+							-71.105884],
+							{'icon':marker_8_icon}
+							);
+      marker_8.bindPopup("B.U. Central - 725 Comm. Ave.");
+      marker_8._popup.options.maxWidth = 300;
+      map.addLayer(marker_8)
+      
+      var marker_9_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_9 = L.marker([42.338629, 
+							-71.1065],
+							{'icon':marker_9_icon}
+							);
+      marker_9.bindPopup("Longwood Ave / Binney St");
+      marker_9._popup.options.maxWidth = 300;
+      map.addLayer(marker_9)
+      
+      var marker_10_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_10 = L.marker([42.335911, 
+							-71.088496],
+							{'icon':marker_10_icon}
+							);
+      marker_10.bindPopup("Ruggles Station / Columbus Ave.");
+      marker_10._popup.options.maxWidth = 300;
+      map.addLayer(marker_10)
+      
+      var marker_11_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_11 = L.marker([42.334057, 
+							-71.07403],
+							{'icon':marker_11_icon}
+							);
+      marker_11.bindPopup("Boston Medical Center - 721 Mass. Ave.");
+      marker_11._popup.options.maxWidth = 300;
+      map.addLayer(marker_11)
+      
+      var marker_12_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_12 = L.marker([42.337171, 
+							-71.102797],
+							{'icon':marker_12_icon}
+							);
+      marker_12.bindPopup("HMS / HSPH - Ave. Louis Pasteur at Longwood Ave.");
+      marker_12._popup.options.maxWidth = 300;
+      map.addLayer(marker_12)
+      
+      var marker_13_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_13 = L.marker([42.361667, 
+							-71.13802],
+							{'icon':marker_13_icon}
+							);
+      marker_13.bindPopup("Harvard Real Estate - Brighton Mills - 370 Western Ave");
+      marker_13._popup.options.maxWidth = 300;
+      map.addLayer(marker_13)
+      
+      var marker_14_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_14 = L.marker([42.347433, 
+							-71.076163],
+							{'icon':marker_14_icon}
+							);
+      marker_14.bindPopup("Back Bay / South End Station");
+      marker_14._popup.options.maxWidth = 300;
+      map.addLayer(marker_14)
+      
+      var marker_15_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_15 = L.marker([42.365074, 
+							-71.119581],
+							{'icon':marker_15_icon}
+							);
+      marker_15.bindPopup("Harvard University Housing - 111 Western Ave. at Soldiers Field Park");
+      marker_15._popup.options.maxWidth = 300;
+      map.addLayer(marker_15)
+      
+      var marker_16_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_16 = L.marker([42.36337, 
+							-71.129791],
+							{'icon':marker_16_icon}
+							);
+      marker_16.bindPopup("Harvard Real Estate - 219 Western Ave. at North Harvard St.");
+      marker_16._popup.options.maxWidth = 300;
+      map.addLayer(marker_16)
+      
+      var marker_17_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_17 = L.marker([42.347527, 
+							-71.105828],
+							{'icon':marker_17_icon}
+							);
+      marker_17.bindPopup("Buswell Park");
+      marker_17._popup.options.maxWidth = 300;
+      map.addLayer(marker_17)
+      
+      var marker_18_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_18 = L.marker([42.35977, 
+							-71.051601],
+							{'icon':marker_18_icon}
+							);
+      marker_18.bindPopup("Aquarium Station - 200 Atlantic Ave.");
+      marker_18._popup.options.maxWidth = 300;
+      map.addLayer(marker_18)
+      
+      var marker_19_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_19 = L.marker([42.345959, 
+							-71.082578],
+							{'icon':marker_19_icon}
+							);
+      marker_19.bindPopup("Prudential Center / Belvidere");
+      marker_19._popup.options.maxWidth = 300;
+      map.addLayer(marker_19)
+      
+      var marker_20_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_20 = L.marker([42.352175, 
+							-71.055547],
+							{'icon':marker_20_icon}
+							);
+      marker_20.bindPopup("South Station - 700 Atlantic Ave.");
+      marker_20._popup.options.maxWidth = 300;
+      map.addLayer(marker_20)
+      
+      var marker_21_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_21 = L.marker([42.359677, 
+							-71.059364],
+							{'icon':marker_21_icon}
+							);
+      marker_21.bindPopup("Mayor Thomas M. Menino - Government Center");
+      marker_21._popup.options.maxWidth = 300;
+      map.addLayer(marker_21)
+      
+      var marker_22_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_22 = L.marker([42.351821, 
+							-71.045461],
+							{'icon':marker_22_icon}
+							);
+      marker_22.bindPopup("Seaport Square - Seaport Blvd. at Boston Wharf");
+      marker_22._popup.options.maxWidth = 300;
+      map.addLayer(marker_22)
+      
+      var marker_23_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_23 = L.marker([42.341332, 
+							-71.076847],
+							{'icon':marker_23_icon}
+							);
+      marker_23.bindPopup("Tremont St / W Newton St");
+      marker_23._popup.options.maxWidth = 300;
+      map.addLayer(marker_23)
+      
+      var marker_24_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_24 = L.marker([42.341522, 
+							-71.068922],
+							{'icon':marker_24_icon}
+							);
+      marker_24.bindPopup("Washington St. at Waltham St.");
+      marker_24._popup.options.maxWidth = 300;
+      map.addLayer(marker_24)
+      
+      var marker_25_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_25 = L.marker([42.331567, 
+							-71.094734],
+							{'icon':marker_25_icon}
+							);
+      marker_25.bindPopup("Roxbury Crossing Station");
+      marker_25._popup.options.maxWidth = 300;
+      map.addLayer(marker_25)
+      
+      var marker_26_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_26 = L.marker([42.363732, 
+							-71.124565],
+							{'icon':marker_26_icon}
+							);
+      marker_26.bindPopup("Innovation Lab - 125 Western Ave. at Batten Way");
+      marker_26._popup.options.maxWidth = 300;
+      map.addLayer(marker_26)
+      
+      var marker_27_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_27 = L.marker([42.334073, 
+							-71.105221],
+							{'icon':marker_27_icon}
+							);
+      marker_27.bindPopup("Brigham Cir / Huntington Ave");
+      marker_27._popup.options.maxWidth = 300;
+      map.addLayer(marker_27)
+      
+      var marker_28_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_28 = L.marker([42.348833, 
+							-71.041747],
+							{'icon':marker_28_icon}
+							);
+      marker_28.bindPopup("Seaport Hotel");
+      marker_28._popup.options.maxWidth = 300;
+      map.addLayer(marker_28)
+      
+      var marker_29_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_29 = L.marker([42.343912, 
+							-71.102221],
+							{'icon':marker_29_icon}
+							);
+      marker_29.bindPopup("Landmark Centre");
+      marker_29._popup.options.maxWidth = 300;
+      map.addLayer(marker_29)
+      
+      var marker_30_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_30 = L.marker([42.349046, 
+							-71.096831],
+							{'icon':marker_30_icon}
+							);
+      marker_30.bindPopup("Kenmore Sq / Comm Ave");
+      marker_30._popup.options.maxWidth = 300;
+      map.addLayer(marker_30)
+      
+      var marker_31_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_31 = L.marker([42.346171, 
+							-71.099855],
+							{'icon':marker_31_icon}
+							);
+      marker_31.bindPopup("Overland St at Brookline Ave");
+      marker_31._popup.options.maxWidth = 300;
+      map.addLayer(marker_31)
+      
+      var marker_32_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_32 = L.marker([42.354594, 
+							-71.05896],
+							{'icon':marker_32_icon}
+							);
+      marker_32.bindPopup("Summer St. / Arch St.");
+      marker_32._popup.options.maxWidth = 300;
+      map.addLayer(marker_32)
+      
+      var marker_33_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_33 = L.marker([42.349673, 
+							-71.077303],
+							{'icon':marker_33_icon}
+							);
+      marker_33.bindPopup("Boston Public Library - 700 Boylston St.");
+      marker_33._popup.options.maxWidth = 300;
+      map.addLayer(marker_33)
+      
+      var marker_34_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_34 = L.marker([42.357247, 
+							-71.146452],
+							{'icon':marker_34_icon}
+							);
+      marker_34.bindPopup("New Balance - 38 Guest St.");
+      marker_34._popup.options.maxWidth = 300;
+      map.addLayer(marker_34)
+      
+      var marker_35_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_35 = L.marker([42.366231, 
+							-71.060868],
+							{'icon':marker_35_icon}
+							);
+      marker_35.bindPopup("TD Garden - Legends Way");
+      marker_35._popup.options.maxWidth = 300;
+      map.addLayer(marker_35)
+      
+      var marker_36_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_36 = L.marker([42.338623, 
+							-71.074182],
+							{'icon':marker_36_icon}
+							);
+      marker_36.bindPopup("Washington St. at Rutland St.");
+      marker_36._popup.options.maxWidth = 300;
+      map.addLayer(marker_36)
+      
+      var marker_37_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_37 = L.marker([42.363871, 
+							-71.050877],
+							{'icon':marker_37_icon}
+							);
+      marker_37.bindPopup("Lewis Wharf - Atlantic Ave.");
+      marker_37._popup.options.maxWidth = 300;
+      map.addLayer(marker_37)
+      
+      var marker_38_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_38 = L.marker([42.352261, 
+							-71.123831],
+							{'icon':marker_38_icon}
+							);
+      marker_38.bindPopup("Packard's Corner - Comm. Ave. at Brighton Ave.");
+      marker_38._popup.options.maxWidth = 300;
+      map.addLayer(marker_38)
+      
+      var marker_39_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_39 = L.marker([42.352096, 
+							-71.070378],
+							{'icon':marker_39_icon}
+							);
+      marker_39.bindPopup("Boylston St. at Arlington St.");
+      marker_39._popup.options.maxWidth = 300;
+      map.addLayer(marker_39)
+      
+      var marker_40_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_40 = L.marker([42.357143, 
+							-71.050699],
+							{'icon':marker_40_icon}
+							);
+      marker_40.bindPopup("Rowes Wharf - Atlantic Ave");
+      marker_40._popup.options.maxWidth = 300;
+      map.addLayer(marker_40)
+      
+      var marker_41_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_41 = L.marker([42.360583, 
+							-71.056868],
+							{'icon':marker_41_icon}
+							);
+      marker_41.bindPopup("Faneuil Hall - Union St. at North St.");
+      marker_41._popup.options.maxWidth = 300;
+      map.addLayer(marker_41)
+      
+      var marker_42_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_42 = L.marker([42.344763, 
+							-71.09788],
+							{'icon':marker_42_icon}
+							);
+      marker_42.bindPopup("Yawkey Way at Boylston St.");
+      marker_42._popup.options.maxWidth = 300;
+      map.addLayer(marker_42)
+      
+      var marker_43_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_43 = L.marker([42.343864, 
+							-71.085918],
+							{'icon':marker_43_icon}
+							);
+      marker_43.bindPopup("Christian Science Plaza");
+      marker_43._popup.options.maxWidth = 300;
+      map.addLayer(marker_43)
+      
+      var marker_44_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_44 = L.marker([42.362811, 
+							-71.056067],
+							{'icon':marker_44_icon}
+							);
+      marker_44.bindPopup("Cross St. at Hanover St.");
+      marker_44._popup.options.maxWidth = 300;
+      map.addLayer(marker_44)
+      
+      var marker_45_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_45 = L.marker([42.356755, 
+							-71.055407],
+							{'icon':marker_45_icon}
+							);
+      marker_45.bindPopup("Post Office Square");
+      marker_45._popup.options.maxWidth = 300;
+      map.addLayer(marker_45)
+      
+      var marker_46_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_46 = L.marker([42.351146, 
+							-71.066289],
+							{'icon':marker_46_icon}
+							);
+      marker_46.bindPopup("Stuart St. at Charles St.");
+      marker_46._popup.options.maxWidth = 300;
+      map.addLayer(marker_46)
+      
+      var marker_47_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_47 = L.marker([42.350989, 
+							-71.073644],
+							{'icon':marker_47_icon}
+							);
+      marker_47.bindPopup("Boylston St / Berkeley St");
+      marker_47._popup.options.maxWidth = 300;
+      map.addLayer(marker_47)
+      
+      var marker_48_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_48 = L.marker([42.3348756, 
+							-71.0790969],
+							{'icon':marker_48_icon}
+							);
+      marker_48.bindPopup("Washington St. at Lenox St.");
+      marker_48._popup.options.maxWidth = 300;
+      map.addLayer(marker_48)
+      
+      var marker_49_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_49 = L.marker([42.348717, 
+							-71.085954],
+							{'icon':marker_49_icon}
+							);
+      marker_49.bindPopup("Newbury St / Hereford St");
+      marker_49._popup.options.maxWidth = 300;
+      map.addLayer(marker_49)
+      
+      var marker_50_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_50 = L.marker([42.350851, 
+							-71.089886],
+							{'icon':marker_50_icon}
+							);
+      marker_50.bindPopup("Beacon St / Mass Ave");
+      marker_50._popup.options.maxWidth = 300;
+      map.addLayer(marker_50)
+      
+      var marker_51_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_51 = L.marker([42.354979, 
+							-71.063348],
+							{'icon':marker_51_icon}
+							);
+      marker_51.bindPopup("Tremont St / West St");
+      marker_51._popup.options.maxWidth = 300;
+      map.addLayer(marker_51)
+      
+      var marker_52_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_52 = L.marker([42.347265, 
+							-71.088088],
+							{'icon':marker_52_icon}
+							);
+      marker_52.bindPopup("Boylston / Mass Ave");
+      marker_52._popup.options.maxWidth = 300;
+      map.addLayer(marker_52)
+      
+      var marker_53_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_53 = L.marker([42.3281898, 
+							-71.0833545],
+							{'icon':marker_53_icon}
+							);
+      marker_53.bindPopup("Dudley Square");
+      marker_53._popup.options.maxWidth = 300;
+      map.addLayer(marker_53)
+      
+      var marker_54_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_54 = L.marker([42.340799, 
+							-71.081572],
+							{'icon':marker_54_icon}
+							);
+      marker_54.bindPopup("Columbus Ave. at Mass. Ave.");
+      marker_54._popup.options.maxWidth = 300;
+      map.addLayer(marker_54)
+      
+      var marker_55_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_55 = L.marker([42.355596, 
+							-71.07278],
+							{'icon':marker_55_icon}
+							);
+      marker_55.bindPopup("The Esplanade - Beacon St. at Arlington St.");
+      marker_55._popup.options.maxWidth = 300;
+      map.addLayer(marker_55)
+      
+      var marker_56_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_56 = L.marker([42.351356, 
+							-71.059367],
+							{'icon':marker_56_icon}
+							);
+      marker_56.bindPopup("Chinatown Gate Plaza - Surface Rd. at Beach St.");
+      marker_56._popup.options.maxWidth = 300;
+      map.addLayer(marker_56)
+      
+      var marker_57_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_57 = L.marker([42.360877, 
+							-71.07131],
+							{'icon':marker_57_icon}
+							);
+      marker_57.bindPopup("Charles Circle - Charles St. at Cambridge St.");
+      marker_57._popup.options.maxWidth = 300;
+      map.addLayer(marker_57)
+      
+      var marker_58_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_58 = L.marker([42.348323, 
+							-71.082674],
+							{'icon':marker_58_icon}
+							);
+      marker_58.bindPopup("Boylston at Fairfield");
+      marker_58._popup.options.maxWidth = 300;
+      map.addLayer(marker_58)
+      
+      var marker_59_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_59 = L.marker([42.340299, 
+							-71.109927],
+							{'icon':marker_59_icon}
+							);
+      marker_59.bindPopup("Longwood Ave/Riverway");
+      marker_59._popup.options.maxWidth = 300;
+      map.addLayer(marker_59)
+      
+      var marker_60_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_60 = L.marker([42.344023, 
+							-71.057054],
+							{'icon':marker_60_icon}
+							);
+      marker_60.bindPopup("Dorchester Ave. at Gillette Park");
+      marker_60._popup.options.maxWidth = 300;
+      map.addLayer(marker_60)
+      
+      var marker_61_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_61 = L.marker([42.3511, 
+							-71.0496],
+							{'icon':marker_61_icon}
+							);
+      marker_61.bindPopup("Congress / Sleeper");
+      marker_61._popup.options.maxWidth = 300;
+      map.addLayer(marker_61)
+      
+      var marker_62_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_62 = L.marker([42.3475, 
+							-71.0441],
+							{'icon':marker_62_icon}
+							);
+      marker_62.bindPopup("Boston Convention & Exhibition Center");
+      marker_62._popup.options.maxWidth = 300;
+      map.addLayer(marker_62)
+      
+      var marker_63_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_63 = L.marker([42.348607, 
+							-71.13401],
+							{'icon':marker_63_icon}
+							);
+      marker_63.bindPopup("Allston Green District - Commonwealth Ave & Griggs St");
+      marker_63._popup.options.maxWidth = 300;
+      map.addLayer(marker_63)
+      
+      var marker_64_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_64 = L.marker([42.3581, 
+							-71.093198],
+							{'icon':marker_64_icon}
+							);
+      marker_64.bindPopup("MIT at Mass Ave / Amherst St");
+      marker_64._popup.options.maxWidth = 300;
+      map.addLayer(marker_64)
+      
+      var marker_65_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_65 = L.marker([42.36507, 
+							-71.1031],
+							{'icon':marker_65_icon}
+							);
+      marker_65.bindPopup("Central Square at Mass Ave / Essex St");
+      marker_65._popup.options.maxWidth = 300;
+      map.addLayer(marker_65)
+      
+      var marker_66_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_66 = L.marker([42.341598, 
+							-71.123338],
+							{'icon':marker_66_icon}
+							);
+      marker_66.bindPopup("Coolidge Corner - Beacon St @ Centre St");
+      marker_66._popup.options.maxWidth = 300;
+      map.addLayer(marker_66)
+      
+      var marker_67_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_67 = L.marker([42.372244, 
+							-71.121851],
+							{'icon':marker_67_icon}
+							);
+      marker_67.bindPopup("Harvard Kennedy School at Bennett St / Eliot St");
+      marker_67._popup.options.maxWidth = 300;
+      map.addLayer(marker_67)
+      
+      var marker_68_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_68 = L.marker([42.383405, 
+							-71.107593],
+							{'icon':marker_68_icon}
+							);
+      marker_68.bindPopup("Conway Park - Somerville Avenue");
+      marker_68._popup.options.maxWidth = 300;
+      map.addLayer(marker_68)
+      
+      var marker_69_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_69 = L.marker([42.362613, 
+							-71.084105],
+							{'icon':marker_69_icon}
+							);
+      marker_69.bindPopup("One Broadway / Kendall Sq at Main St / 3rd St");
+      marker_69._popup.options.maxWidth = 300;
+      map.addLayer(marker_69)
+      
+      var marker_70_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_70 = L.marker([42.373231, 
+							-71.120886],
+							{'icon':marker_70_icon}
+							);
+      marker_70.bindPopup("Harvard Square at Brattle St / Eliot St");
+      marker_70._popup.options.maxWidth = 300;
+      map.addLayer(marker_70)
+      
+      var marker_71_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_71 = L.marker([42.373268, 
+							-71.118579],
+							{'icon':marker_71_icon}
+							);
+      marker_71.bindPopup("Harvard Square at Mass Ave/ Dunster");
+      marker_71._popup.options.maxWidth = 300;
+      map.addLayer(marker_71)
+      
+      var marker_72_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_72 = L.marker([42.363562, 
+							-71.10042],
+							{'icon':marker_72_icon}
+							);
+      marker_72.bindPopup("Lafayette Square at Mass Ave / Main St / Columbia St");
+      marker_72._popup.options.maxWidth = 300;
+      map.addLayer(marker_72)
+      
+      var marker_73_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_73 = L.marker([42.366426, 
+							-71.105495],
+							{'icon':marker_73_icon}
+							);
+      marker_73.bindPopup("Central Sq Post Office / Cambridge City Hall at Mass Ave / Pleasant St");
+      marker_73._popup.options.maxWidth = 300;
+      map.addLayer(marker_73)
+      
+      var marker_74_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_74 = L.marker([42.386428, 
+							-71.096413],
+							{'icon':marker_74_icon}
+							);
+      marker_74.bindPopup("Somerville City Hall");
+      marker_74._popup.options.maxWidth = 300;
+      map.addLayer(marker_74)
+      
+      var marker_75_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_75 = L.marker([42.379637, 
+							-71.095319],
+							{'icon':marker_75_icon}
+							);
+      marker_75.bindPopup("Union Square - Somerville");
+      marker_75._popup.options.maxWidth = 300;
+      map.addLayer(marker_75)
+      
+      var marker_76_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_76 = L.marker([42.378551, 
+							-71.106541],
+							{'icon':marker_76_icon}
+							);
+      marker_76.bindPopup("Beacon St at Washington / Kirkland");
+      marker_76._popup.options.maxWidth = 300;
+      map.addLayer(marker_76)
+      
+      var marker_77_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_77 = L.marker([42.362429, 
+							-71.090188],
+							{'icon':marker_77_icon}
+							);
+      marker_77.bindPopup("MIT Stata Center at Vassar St / Main St");
+      marker_77._popup.options.maxWidth = 300;
+      map.addLayer(marker_77)
+      
+      var marker_78_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_78 = L.marker([42.352409, 
+							-71.062679],
+							{'icon':marker_78_icon}
+							);
+      marker_78.bindPopup("Boylston St / Washington St");
+      marker_78._popup.options.maxWidth = 300;
+      map.addLayer(marker_78)
+      
+      var marker_79_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_79 = L.marker([42.333689, 
+							-71.120526],
+							{'icon':marker_79_icon}
+							);
+      marker_79.bindPopup("Brookline Town Hall / Library Washington St");
+      marker_79._popup.options.maxWidth = 300;
+      map.addLayer(marker_79)
+      
+      var marker_80_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_80 = L.marker([42.325941, 
+							-71.065928],
+							{'icon':marker_80_icon}
+							);
+      marker_80.bindPopup("South Bay Plaza");
+      marker_80._popup.options.maxWidth = 300;
+      map.addLayer(marker_80)
+      
+      var marker_81_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_81 = L.marker([42.366981, 
+							-71.076472],
+							{'icon':marker_81_icon}
+							);
+      marker_81.bindPopup("CambridgeSide Galleria - CambridgeSide PL at Land Blvd");
+      marker_81._popup.options.maxWidth = 300;
+      map.addLayer(marker_81)
+      
+      var marker_82_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_82 = L.marker([42.330825, 
+							-71.057007],
+							{'icon':marker_82_icon}
+							);
+      marker_82.bindPopup("Andrew Station - Dorchester Ave at Humboldt Pl");
+      marker_82._popup.options.maxWidth = 300;
+      map.addLayer(marker_82)
+      
+      var marker_83_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_83 = L.marker([42.332799, 
+							-71.116205],
+							{'icon':marker_83_icon}
+							);
+      marker_83.bindPopup("Brookline Village - Station Street @ MBTA");
+      marker_83._popup.options.maxWidth = 300;
+      map.addLayer(marker_83)
+      
+      var marker_84_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_84 = L.marker([42.366621, 
+							-71.114214],
+							{'icon':marker_84_icon}
+							);
+      marker_84.bindPopup("Harvard University Housing - 115 Putnam Ave at Peabody Terrace");
+      marker_84._popup.options.maxWidth = 300;
+      map.addLayer(marker_84)
+      
+      var marker_85_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_85 = L.marker([42.374035, 
+							-71.101427],
+							{'icon':marker_85_icon}
+							);
+      marker_85.bindPopup("Inman Square at Vellucci Plaza / Hampshire St");
+      marker_85._popup.options.maxWidth = 300;
+      map.addLayer(marker_85)
+      
+      var marker_86_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_86 = L.marker([42.379011, 
+							-71.119945],
+							{'icon':marker_86_icon}
+							);
+      marker_86.bindPopup("Harvard Law School at Mass Ave / Jarvis St");
+      marker_86._popup.options.maxWidth = 300;
+      map.addLayer(marker_86)
+      
+      var marker_87_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_87 = L.marker([42.3707, 
+							-71.07711],
+							{'icon':marker_87_icon}
+							);
+      marker_87.bindPopup("Lechmere Station at Cambridge St / First St");
+      marker_87._popup.options.maxWidth = 300;
+      map.addLayer(marker_87)
+      
+      var marker_88_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_88 = L.marker([42.366277, 
+							-71.09169],
+							{'icon':marker_88_icon}
+							);
+      marker_88.bindPopup("One Kendall Square at Hampshire St / Portland St");
+      marker_88._popup.options.maxWidth = 300;
+      map.addLayer(marker_88)
+      
+      var marker_89_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_89 = L.marker([42.311819, 
+							-71.035705],
+							{'icon':marker_89_icon}
+							);
+      marker_89.bindPopup("University of Massachusetts Boston");
+      marker_89._popup.options.maxWidth = 300;
+      map.addLayer(marker_89)
+      
+      var marker_90_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_90 = L.marker([42.320494, 
+							-71.051122],
+							{'icon':marker_90_icon}
+							);
+      marker_90.bindPopup("JFK / UMASS Station");
+      marker_90._popup.options.maxWidth = 300;
+      map.addLayer(marker_90)
+      
+      var marker_91_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_91 = L.marker([42.375603, 
+							-71.064608],
+							{'icon':marker_91_icon}
+							);
+      marker_91.bindPopup("Charlestown - Main St at Austin St");
+      marker_91._popup.options.maxWidth = 300;
+      map.addLayer(marker_91)
+      
+      var marker_92_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_92 = L.marker([42.372969, 
+							-71.094445],
+							{'icon':marker_92_icon}
+							);
+      marker_92.bindPopup("Cambridge St - at Columbia St / Webster Ave");
+      marker_92._popup.options.maxWidth = 300;
+      map.addLayer(marker_92)
+      
+      var marker_93_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_93 = L.marker([42.373379, 
+							-71.111075],
+							{'icon':marker_93_icon}
+							);
+      marker_93.bindPopup("Cambridge Main Library at Broadway / Trowbridge St");
+      marker_93._popup.options.maxWidth = 300;
+      map.addLayer(marker_93)
+      
+      var marker_94_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_94 = L.marker([42.369182, 
+							-71.117152],
+							{'icon':marker_94_icon}
+							);
+      marker_94.bindPopup("Harvard  University River Houses at DeWolfe St / Cowperthwaite St");
+      marker_94._popup.options.maxWidth = 300;
+      map.addLayer(marker_94)
+      
+      var marker_95_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_95 = L.marker([42.371848, 
+							-71.060292],
+							{'icon':marker_95_icon}
+							);
+      marker_95.bindPopup("Charlestown - Warren St at Chelsea St");
+      marker_95._popup.options.maxWidth = 300;
+      map.addLayer(marker_95)
+      
+      var marker_96_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_96 = L.marker([42.35892, 
+							-71.057629],
+							{'icon':marker_96_icon}
+							);
+      marker_96.bindPopup("Mayor Thomas M. Menino - Government Center");
+      marker_96._popup.options.maxWidth = 300;
+      map.addLayer(marker_96)
+      
+      var marker_97_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_97 = L.marker([42.328654, 
+							-71.084198],
+							{'icon':marker_97_icon}
+							);
+      marker_97.bindPopup("Dudley Square");
+      marker_97._popup.options.maxWidth = 300;
+      map.addLayer(marker_97)
+      
+      var marker_98_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_98 = L.marker([42.345733, 
+							-71.100694],
+							{'icon':marker_98_icon}
+							);
+      marker_98.bindPopup("BIDMC - Brookline at Burlington St");
+      marker_98._popup.options.maxWidth = 300;
+      map.addLayer(marker_98)
+      
+      var marker_99_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_99 = L.marker([42.336437, 
+							-71.073089],
+							{'icon':marker_99_icon}
+							);
+      marker_99.bindPopup("Boston Medical Center -  East Concord at Harrison Ave");
+      marker_99._popup.options.maxWidth = 300;
+      map.addLayer(marker_99)
+      
+      var marker_100_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_100 = L.marker([42.348762, 
+							-71.082383],
+							{'icon':marker_100_icon}
+							);
+      marker_100.bindPopup("Boylston at Fairfield");
+      marker_100._popup.options.maxWidth = 300;
+      map.addLayer(marker_100)
+      
+      var marker_101_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_101 = L.marker([42.330716, 
+							-71.057044],
+							{'icon':marker_101_icon}
+							);
+      marker_101.bindPopup("Andrew Station - Dorchester Ave at Humboldt Pl");
+      marker_101._popup.options.maxWidth = 300;
+      map.addLayer(marker_101)
+      
+      var marker_102_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_102 = L.marker([42.325333, 
+							-71.075354],
+							{'icon':marker_102_icon}
+							);
+      marker_102.bindPopup("Mt Pleasant Ave / Dudley Town Common");
+      marker_102._popup.options.maxWidth = 300;
+      map.addLayer(marker_102)
+      
+      var marker_103_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_103 = L.marker([42.335693, 
+							-71.045859],
+							{'icon':marker_103_icon}
+							);
+      marker_103.bindPopup("West Broadway at Dorchester St");
+      marker_103._popup.options.maxWidth = 300;
+      map.addLayer(marker_103)
+      
+      var marker_104_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_104 = L.marker([42.335741, 
+							-71.03877],
+							{'icon':marker_104_icon}
+							);
+      marker_104.bindPopup("South Boston Library - 646 East Broadway");
+      marker_104._popup.options.maxWidth = 300;
+      map.addLayer(marker_104)
+      
+      var marker_105_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_105 = L.marker([42.320561, 
+							-71.06198],
+							{'icon':marker_105_icon}
+							);
+      marker_105.bindPopup("E. Cottage St at Columbia Rd");
+      marker_105._popup.options.maxWidth = 300;
+      map.addLayer(marker_105)
+      
+      var marker_106_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_106 = L.marker([42.317225, 
+							-71.065421],
+							{'icon':marker_106_icon}
+							);
+      marker_106.bindPopup("Upham's Corner - Ramsey St at Dudley St");
+      marker_106._popup.options.maxWidth = 300;
+      map.addLayer(marker_106)
+      
+      var marker_107_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_107 = L.marker([42.356975, 
+							-71.145442],
+							{'icon':marker_107_icon}
+							);
+      marker_107.bindPopup("New Balance - Guest St. at Life St.");
+      marker_107._popup.options.maxWidth = 300;
+      map.addLayer(marker_107)
+      
+      var marker_108_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_108 = L.marker([42.366222, 
+							-71.059914],
+							{'icon':marker_108_icon}
+							);
+      marker_108.bindPopup("TD Garden - Causeway at Portal Park #2");
+      marker_108._popup.options.maxWidth = 300;
+      map.addLayer(marker_108)
+      
+      var marker_109_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_109 = L.marker([42.355402, 
+							-71.058087],
+							{'icon':marker_109_icon}
+							);
+      marker_109.bindPopup("Franklin St. / Arch St.");
+      marker_109._popup.options.maxWidth = 300;
+      map.addLayer(marker_109)
+      
+      var marker_110_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_110 = L.marker([42.36069, 
+							-71.070884],
+							{'icon':marker_110_icon}
+							);
+      marker_110.bindPopup("Charles Circle - Charles St. at Cambridge St.");
+      marker_110._popup.options.maxWidth = 300;
+      map.addLayer(marker_110)
+      
+      var marker_111_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_111 = L.marker([42.365942, 
+							-71.060515],
+							{'icon':marker_111_icon}
+							);
+      marker_111.bindPopup("TD Garden - Causeway at Portal Park #1");
+      marker_111._popup.options.maxWidth = 300;
+      map.addLayer(marker_111)
+      
+      var marker_112_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_112 = L.marker([42.378338, 
+							-71.048927],
+							{'icon':marker_112_icon}
+							);
+      marker_112.bindPopup("Spaulding Rehabilitation Hospital - Charlestown Navy Yard");
+      marker_112._popup.options.maxWidth = 300;
+      map.addLayer(marker_112)
+      
+      var marker_113_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_113 = L.marker([42.356052, 
+							-71.069849],
+							{'icon':marker_113_icon}
+							);
+      marker_113.bindPopup("Charles St at Beacon St");
+      marker_113._popup.options.maxWidth = 300;
+      map.addLayer(marker_113)
+      
+      var marker_114_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_114 = L.marker([42.358508, 
+							-71.052984],
+							{'icon':marker_114_icon}
+							);
+      marker_114.bindPopup("Milk St at India St");
+      marker_114._popup.options.maxWidth = 300;
+      map.addLayer(marker_114)
+      
+      var marker_115_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_115 = L.marker([42.377022, 
+							-71.056605],
+							{'icon':marker_115_icon}
+							);
+      marker_115.bindPopup("Hayes Square at Vine St.");
+      marker_115._popup.options.maxWidth = 300;
+      map.addLayer(marker_115)
+      
+      var marker_116_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_116 = L.marker([42.350413, 
+							-71.07655],
+							{'icon':marker_116_icon}
+							);
+      marker_116.bindPopup("New Balance Store - Boylston at Dartmouth");
+      marker_116._popup.options.maxWidth = 300;
+      map.addLayer(marker_116)
+      
+      var marker_117_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_117 = L.marker([42.309467, 
+							-71.115645],
+							{'icon':marker_117_icon}
+							);
+      marker_117.bindPopup("JP Monument - South St at Centre St");
+      marker_117._popup.options.maxWidth = 300;
+      map.addLayer(marker_117)
+      
+      var marker_118_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_118 = L.marker([42.31309, 
+							-71.114175],
+							{'icon':marker_118_icon}
+							);
+      marker_118.bindPopup("JP Centre - Centre Street at Myrtle Street");
+      marker_118._popup.options.maxWidth = 300;
+      map.addLayer(marker_118)
+      
+      var marker_119_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_119 = L.marker([42.320998, 
+							-71.110833],
+							{'icon':marker_119_icon}
+							);
+      marker_119.bindPopup("Hyde Square at Barbara St");
+      marker_119._popup.options.maxWidth = 300;
+      map.addLayer(marker_119)
+      
+      var marker_120_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_120 = L.marker([42.315692, 
+							-71.098634],
+							{'icon':marker_120_icon}
+							);
+      marker_120.bindPopup("Egleston Square at Columbus Ave");
+      marker_120._popup.options.maxWidth = 300;
+      map.addLayer(marker_120)
+      
+      var marker_121_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_121 = L.marker([42.310579, 
+							-71.107341],
+							{'icon':marker_121_icon}
+							);
+      marker_121.bindPopup("Green St T");
+      marker_121._popup.options.maxWidth = 300;
+      map.addLayer(marker_121)
+      
+      var marker_122_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_122 = L.marker([42.322913, 
+							-71.100164],
+							{'icon':marker_122_icon}
+							);
+      marker_122.bindPopup("Jackson Square T at Centre St");
+      marker_122._popup.options.maxWidth = 300;
+      map.addLayer(marker_122)
+      
+      var marker_123_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_123 = L.marker([42.339335, 
+							-71.13493],
+							{'icon':marker_123_icon}
+							);
+      marker_123.bindPopup("Washington Square at Washington St. / Beacon St.");
+      marker_123._popup.options.maxWidth = 300;
+      map.addLayer(marker_123)
+      
+      var marker_124_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_124 = L.marker([42.346563, 
+							-71.128374],
+							{'icon':marker_124_icon}
+							);
+      marker_124.bindPopup("JFK Crossing at Harvard St. / Thorndike St.");
+      marker_124._popup.options.maxWidth = 300;
+      map.addLayer(marker_124)
+      
+      var marker_125_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_125 = L.marker([42.362457, 
+							-71.08497],
+							{'icon':marker_125_icon}
+							);
+      marker_125.bindPopup("Kendall T at Main St");
+      marker_125._popup.options.maxWidth = 300;
+      map.addLayer(marker_125)
+      
+      var marker_126_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_126 = L.marker([42.369832, 
+							-71.118201],
+							{'icon':marker_126_icon}
+							);
+      marker_126.bindPopup("Harvard University River Houses / Plympton St at Memorial Drive");
+      marker_126._popup.options.maxWidth = 300;
+      map.addLayer(marker_126)
+      
+      var marker_127_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_127 = L.marker([42.376369, 
+							-71.114025],
+							{'icon':marker_127_icon}
+							);
+      marker_127.bindPopup("Harvard University Gund Hall at Quincy St / Kirkland S");
+      marker_127._popup.options.maxWidth = 300;
+      map.addLayer(marker_127)
+      
+      var marker_128_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_128 = L.marker([42.356954, 
+							-71.113687],
+							{'icon':marker_128_icon}
+							);
+      marker_128.bindPopup("Lower Cambridgeport at Magazine St/Riverside Rd");
+      marker_128._popup.options.maxWidth = 300;
+      map.addLayer(marker_128)
+      
+      var marker_129_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_129 = L.marker([42.377945, 
+							-71.116865],
+							{'icon':marker_129_icon}
+							);
+      marker_129.bindPopup("Harvard University / SEAS Cruft-Pierce Halls at 29 Oxford St");
+      marker_129._popup.options.maxWidth = 300;
+      map.addLayer(marker_129)
+      
+      var marker_130_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_130 = L.marker([42.380287, 
+							-71.125107],
+							{'icon':marker_130_icon}
+							);
+      marker_130.bindPopup("Harvard University Radcliffe Quadrangle at Shepard St / Garden St");
+      marker_130._popup.options.maxWidth = 300;
+      map.addLayer(marker_130)
+      
+      var marker_131_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_131 = L.marker([42.397828, 
+							-71.130516],
+							{'icon':marker_131_icon}
+							);
+      marker_131.bindPopup("Mass Ave / Linear Park");
+      marker_131._popup.options.maxWidth = 300;
+      map.addLayer(marker_131)
+      
+      var marker_132_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_132 = L.marker([42.370803, 
+							-71.104412],
+							{'icon':marker_132_icon}
+							);
+      marker_132.bindPopup("359 Broadway - Broadway at Fayette Street");
+      marker_132._popup.options.maxWidth = 300;
+      map.addLayer(marker_132)
+      
+      var marker_133_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_133 = L.marker([42.366095, 
+							-71.086388],
+							{'icon':marker_133_icon}
+							);
+      marker_133.bindPopup("Biogen Idec - Binney St / Sixth St");
+      marker_133._popup.options.maxWidth = 300;
+      map.addLayer(marker_133)
+      
+      var marker_134_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_134 = L.marker([42.387995, 
+							-71.119084],
+							{'icon':marker_134_icon}
+							);
+      marker_134.bindPopup("Porter Square Station");
+      marker_134._popup.options.maxWidth = 300;
+      map.addLayer(marker_134)
+      
+      var marker_135_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_135 = L.marker([42.385582, 
+							-71.113341],
+							{'icon':marker_135_icon}
+							);
+      marker_135.bindPopup("Wilson Square");
+      marker_135._popup.options.maxWidth = 300;
+      map.addLayer(marker_135)
+      
+      var marker_136_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_136 = L.marker([42.396969, 
+							-71.123024],
+							{'icon':marker_136_icon}
+							);
+      marker_136.bindPopup("Davis Square");
+      marker_136._popup.options.maxWidth = 300;
+      map.addLayer(marker_136)
+      
+      var marker_137_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_137 = L.marker([42.400146, 
+							-71.112708],
+							{'icon':marker_137_icon}
+							);
+      marker_137.bindPopup("Ball Square");
+      marker_137._popup.options.maxWidth = 300;
+      map.addLayer(marker_137)
+      
+      var marker_138_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_138 = L.marker([42.400877, 
+							-71.116772],
+							{'icon':marker_138_icon}
+							);
+      marker_138.bindPopup("Powder House Circle");
+      marker_138._popup.options.maxWidth = 300;
+      map.addLayer(marker_138)
+      
+      var marker_139_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_139 = L.marker([42.40449, 
+							-71.123413],
+							{'icon':marker_139_icon}
+							);
+      marker_139.bindPopup("Packard Ave / Powderhouse Blvd");
+      marker_139._popup.options.maxWidth = 300;
+      map.addLayer(marker_139)
+      
+      var marker_140_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_140 = L.marker([42.39082, 
+							-71.10942],
+							{'icon':marker_140_icon}
+							);
+      marker_140.bindPopup("Somerville Hospital at Highland Ave / Crocker St");
+      marker_140._popup.options.maxWidth = 300;
+      map.addLayer(marker_140)
+      
+      var marker_141_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_141 = L.marker([42.402763, 
+							-71.126908],
+							{'icon':marker_141_icon}
+							);
+      marker_141.bindPopup("Teele Square at 239 Holland St");
+      marker_141._popup.options.maxWidth = 300;
+      map.addLayer(marker_141)
+      
+      var marker_142_icon = L.AwesomeMarkers.icon({ icon: 'info-sign',markerColor: 'blue',prefix: 'glyphicon',extraClasses: 'fa-rotate-0'});
+      var marker_142 = L.marker([42.394002, 
+							-71.120406],
+							{'icon':marker_142_icon}
+							);
+      marker_142.bindPopup("Summer St at Cutter St");
+      marker_142._popup.options.maxWidth = 300;
+      map.addLayer(marker_142)
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+
+
+   </script>
+
+</body>
