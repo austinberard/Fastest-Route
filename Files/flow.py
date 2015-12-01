@@ -1,22 +1,22 @@
 #!/usr/bin/env python3
-__author__ = 'Austin'
-
 import datetime
 import hubway
 from itertools import zip_longest, starmap
 import operator
 import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import csv
 from scipy.ndimage import imread
 import random
 import time
-start_time = time.time()
-
 from sklearn import linear_model
 from sklearn import svm
 from sklearn.ensemble import RandomForestClassifier
+
+__author__ = 'Austin'
+
+matplotlib.use('Agg')
+start_time = time.time()
 
 
 def average(l):

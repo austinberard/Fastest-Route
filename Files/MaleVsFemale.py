@@ -1,13 +1,14 @@
 __author__ = 'Austin'
 import csv
-from datetime import datetime
 import gzip
+import os
 
 male = 0
 female = 0
 neither = 0
-
-with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
+currentDir = os.getcwd()
+filename = currentDir + "/Data/hubway_trips.csv.gz"
+with gzip.open(filename, mode='rt') as csvfile:
     for row in csv.reader(csvfile, delimiter=","):
         if row[5] == "strt_statn":
             continue

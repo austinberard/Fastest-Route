@@ -5,13 +5,15 @@ import matplotlib.pyplot as plt
 import csv
 import gzip
 import hubway
+import os
 
 STATIONS = 150
 morningGrid = hubway.initializeGrid(STATIONS)
 eveningGrid = hubway.initializeGrid(STATIONS)
 
-
-with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
+currentDir = os.getcwd()
+filename = currentDir + "/Data/hubway_trips.csv.gz"
+with gzip.open(filename, mode='rt') as csvfile:
     for row in csv.reader(csvfile, delimiter=","):
         if row[5] == "strt_statn":
             continue

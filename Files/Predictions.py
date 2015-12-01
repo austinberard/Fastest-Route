@@ -145,10 +145,10 @@ factorsForMonth = normalize(monthlyBins)
 factorsForHours = normalize(hourlyBins)
 factorsForHoursOnWeekdays = normalize(weekdayBins)
 factorsForHoursOnWeekend = normalize(weekendBins)
-print (factorsForMonth)
-print (factorsForHours)
-print (factorsForHoursOnWeekdays)
-print (factorsForHoursOnWeekend)
+print(factorsForMonth)
+print(factorsForHours)
+print(factorsForHoursOnWeekdays)
+print(factorsForHoursOnWeekend)
 
 if __name__ == "__main__":
     departGrid = hubway.initializeGrid()
@@ -194,12 +194,11 @@ if __name__ == "__main__":
         print(errs)
         avgGridList.append(errs[0])
 
-
         errs = errors(predict_for_hour_using_all(True, randHour, dt), rg)
         print(errs)
         hourGridList.append(errs[0])
 
-        #weekGridList.append(errors(predict_for_hour_using_weekend_data(True, randHour, date), rg)[0])
+        # weekGridList.append(errors(predict_for_hour_using_weekend_data(True, randHour, date), rg)[0])
 
         count += 1
 

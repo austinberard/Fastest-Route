@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 #Add different color for frequency of station
-__author__ = 'Austin'
 import matplotlib.pyplot as plt
 import random
 import csv
@@ -8,8 +7,13 @@ from scipy.ndimage import imread
 import gzip
 import flow
 import hubway
+import os
 
-with open("hubway_stations.csv") as csvfile2:
+__author__ = 'Austin'
+
+currentDir = os.getcwd()
+filename = currentDir + "/Data/hubway_stations.csv"
+with open(filename) as csvfile2:
     readCSV2 = csv.reader(csvfile2, delimiter = ",")
     stations = []
     for rows in readCSV2:

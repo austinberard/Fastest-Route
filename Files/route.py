@@ -8,6 +8,7 @@ import simplejson
 from urllib.request import urlopen
 import GoogleDirections
 import datetime
+import os
 
 random.seed(a=1234)
 # Input something like 42.3426261192002 -71.095690425241 42.36551399422333 -71.11044709619608
@@ -27,7 +28,9 @@ except IndexError:
               random.uniform(-71.035705, -71.146452)]
 
 stations = []
-with open("hubway_stations.csv") as csvfile2:
+currentDir = os.getcwd()
+filename = currentDir + "/Data/hubway_stations.csv"
+with open(filename) as csvfile2:
     readCSV2 = csv.reader(csvfile2, delimiter=",")
     for rows in readCSV2:
         if rows[0] != 'id':     # Skip first line

@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-__author__ = 'Austin'
-
 import matplotlib.pyplot as plt
 import csv
 import gzip
 import datetime
+import os
+
+__author__ = 'Austin'
 
 grid = []
 weekGrid = []
@@ -20,7 +21,10 @@ for l in range(0, STATIONS):
     for m in range(0, STATIONS):
         weekendGrid[l].append(0)
 
-with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
+currentDir = os.getcwd()
+filename = currentDir + "/Data/hubway_trips.csv.gz"
+
+with gzip.open(filename, mode='rt') as csvfile:
     for row in csv.reader(csvfile, delimiter=","):
         if row[5] == "strt_statn":
             continue
@@ -32,7 +36,6 @@ with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
         rawDate = row[4]
         betterDate = rawDate.replace(" ", "/")
         date = betterDate.split("/")
-
 
         if start > STATIONS or end > STATIONS:
             print("Ouch "+str(start) + " " + str(end))
@@ -46,26 +49,26 @@ with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
 
 print(weekendGrid)
 print(weekGrid)
-max = 0
+MAX = 0
 for i in range(0, STATIONS):
     for j in range(0, STATIONS):
-        if weekGrid[i][j] > max:
-            max = weekGrid[i][j]
-        elif weekendGrid[i][j] > max:
-            max = weekendGrid[i][j]
-print(max)
+        if weekGrid[i][j] > MAX:
+            MAX = weekGrid[i][j]
+        elif weekendGrid[i][j] > MAX:
+            MAX = weekendGrid[i][j]
+print(MAX)
 
 
-diffenceGrid = []
+differenceGrid = []
 STATIONS = 150
 for i in range(0, STATIONS):
-    diffenceGrid.append([])
+    differenceGrid.append([])
     for j in range(0, STATIONS):
-        diffenceGrid[i].append(0)
+        differenceGrid[i].append(0)
 
 for i in range(0, STATIONS):
     for j in range(0, STATIONS):
-        diffenceGrid[i][j] = abs(weekGrid[i][j] - weekendGrid[i][j])
+        differenceGrid[i][j] = abs(weekGrid[i][j] - weekendGrid[i][j])
 
 
 def darkness(d):
@@ -73,48 +76,45 @@ def darkness(d):
 
 cs = []
 pts = []
-for i in range(0,STATIONS):
-    for j in range(0,STATIONS):
-        pts.append([i,j])
+for i in range(0, STATIONS):
+    for j in range(0, STATIONS):
+        pts.append([i, j])
         cs.append(darkness(weekGrid[i][j]))
 
 xs, ys = zip(*pts)
 
-plt.scatter(xs, ys, c = cs, s = 4, edgecolors='none')
+plt.scatter(xs, ys, c=cs, s=4, edgecolors='none')
 plt.xlim(0, 150)
 plt.ylim(0, 150)
 plt.title("Week Day Trips")
 plt.show()
 
 
-
 cs = []
 pts = []
 
-for i in range(0,STATIONS):
-    for j in range(0,STATIONS):
-        pts.append([i,j])
+for i in range(0, STATIONS):
+    for j in range(0, STATIONS):
+        pts.append([i, j])
         cs.append(darkness(weekendGrid[i][j]))
 
 xs, ys = zip(*pts)
 
-plt.scatter(xs, ys, c = cs, s = 4, edgecolors='none')
+plt.scatter(xs, ys, c=cs, s=4, edgecolors='none')
 plt.xlim(0, 150)
 plt.ylim(0, 150)
 plt.title("Weekend Trips")
 plt.show()
 
 
-
-
-for i in range(0,STATIONS):
-    for j in range(0,STATIONS):
-        pts.append([i,j])
-        cs.append(darkness(diffenceGrid[i][j]))
+for i in range(0, STATIONS):
+    for j in range(0, STATIONS):
+        pts.append([i, j])
+        cs.append(darkness(differenceGrid[i][j]))
 
 xs, ys = zip(*pts)
 
-plt.scatter(xs, ys, c = cs, s = 4, edgecolors='none')
+plt.scatter(xs, ys, c=cs, s=4, edgecolors='none')
 plt.xlim(0, 150)
 plt.ylim(0, 150)
 plt.title("Differences")

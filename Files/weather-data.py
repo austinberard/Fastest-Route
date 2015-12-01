@@ -2,11 +2,12 @@ import csv
 import gzip
 import urllib.request
 import simplejson
+import os
 
+currentDir = os.getcwd()
+filename = currentDir + "/Data/dates.csv"
 
-
-
-with open("dates.csv") as csvfile:
+with open(filename) as csvfile:
     readCSV = csv.reader(csvfile, delimiter=",")
     dates = []
 

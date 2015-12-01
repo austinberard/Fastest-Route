@@ -22,7 +22,7 @@ def samples(file):
 if __name__ == "__main__":
     training = sys.argv[1]
     held = sys.argv[2]
-    print ("%s %s" % (training, held))
+    print("%s %s" % (training, held))
 
     train_samples, train_results = samples(training)
     held_samples, held_results = samples(held)

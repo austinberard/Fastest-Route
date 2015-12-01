@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-__author__ = 'Austin'
-
 import matplotlib.pyplot as plt
 import hubway
+
+__author__ = 'Austin'
 
 dayGrid = hubway.initializeGrid()
 nightGrid = hubway.initializeGrid()
@@ -19,8 +19,8 @@ for stime, sstation, etime, estation in hubway.trips():
 print(dayGrid)
 print(nightGrid)
 
-max = max(hubway.findMax(dayGrid), hubway.findMax(nightGrid))
-print(max)
+MAX = max(hubway.findMax(dayGrid), hubway.findMax(nightGrid))
+print(MAX)
 
 differenceGrid = hubway.initializeGrid()
 for i in range(0, hubway.STATIONS):
@@ -29,7 +29,7 @@ for i in range(0, hubway.STATIONS):
 
 
 def darkness(d):
-    return str(1-(d/max))
+    return str(1-(d/MAX))
 
 cs = []
 pts = []

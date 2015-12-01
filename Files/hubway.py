@@ -1,6 +1,7 @@
 import csv
 from datetime import datetime
 import gzip
+import os
 import re
 import random
 
@@ -25,8 +26,9 @@ cached_trips = []
 def trips():
   if len(cached_trips) != 0:
     return cached_trips
-
-  with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
+  currentDir = os.getcwd()
+  filename = currentDir + "/Data/hubway_trips.csv.gz"
+  with gzip.open(filename, mode='rt') as csvfile:
     for row in csv.reader(csvfile, delimiter=","):
       if row[5] == "strt_statn":
         continue

@@ -4,8 +4,11 @@ __author__ = 'Austin'
 import csv
 import operator
 import gzip
+import os
 
-with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
+currentDir = os.getcwd()
+filename = currentDir + "/Data/hubway_trips.csv.gz"
+with gzip.open(filename, mode='rt') as csvfile:
     readCSV = csv.reader(csvfile, delimiter=",")
     stationCount = {}
     for i in readCSV:

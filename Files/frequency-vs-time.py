@@ -7,6 +7,7 @@ from datetime import datetime
 import gzip
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 from scipy.interpolate import spline
 
 last_date = None
@@ -39,7 +40,9 @@ temps = [29, 21, 16, 30, 35, 36, 34, 37, 37, 41, 36, 41, 46, 52, 39, 33, 36, 25,
          41, 39, 43, 40, 47, 46, 37, 30, 37, 33, 28, 23, 23, 21, 31, 25, 19, 28, 35, 42, 48, 45, 37, 34, 22, 29, 32, 38, 39, 32, 20]
 
 dayCount = defaultdict(int)
-with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
+currentDir = os.getcwd()
+filename = currentDir + "/Data/hubway_trips.csv.gz"
+with gzip.open(filename, mode='rt') as csvfile:
     for row in csv.reader(csvfile, delimiter=","):
         if row[0] == "seq_id":
             continue

@@ -4,6 +4,7 @@ __author__ = 'Austin'
 import matplotlib.pyplot as plt
 import csv
 import gzip
+import os
 
 rain = [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0]
 
@@ -22,7 +23,10 @@ for i in range(0,STATIONS):
         shineGrid[i].append(0)
 
 i = 0
-with gzip.open("hubway_trips.csv.gz", mode='rt') as csvfile:
+currentDir = os.getcwd()
+filename = currentDir + "/Data/hubway_trips.csv.gz"
+
+with gzip.open(filename, mode='rt') as csvfile:
     for row in csv.reader(csvfile, delimiter=","):
         if row[5] == "strt_statn":
             i += 1
@@ -68,23 +72,22 @@ for i in range(0,STATIONS):
 
 xs, ys = zip(*pts)
 
-plt.scatter(xs, ys, c = cs, s = 1000, edgecolors='none')
+plt.scatter(xs, ys, c=cs, s=1000, edgecolors='none')
 plt.xlim(0, 150)
 plt.ylim(0, 150)
 plt.show()
 
 
-
 cs = []
 pts = []
-for i in range(0,STATIONS):
-    for j in range(0,STATIONS):
-        pts.append([i,j])
+for i in range(0, STATIONS):
+    for j in range(0, STATIONS):
+        pts.append([i, j])
         cs.append(darkness(rainGrid[i][j]))
 
 xs, ys = zip(*pts)
 
-plt.scatter(xs, ys, c = cs, s = 1000, edgecolors='none')
+plt.scatter(xs, ys, c=cs, s=1000, edgecolors='none')
 plt.xlim(0, 150)
 plt.ylim(0, 150)
 plt.show()

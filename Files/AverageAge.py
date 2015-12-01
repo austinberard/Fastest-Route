@@ -1,13 +1,16 @@
-__author__ = 'Austin'
 import csv
 import gzip
 from collections import defaultdict
+import os
+
+__author__ = 'Austin'
 
 test = defaultdict(lambda: 0)
 tot = 0
 agetot = 0
-
-with gzip.open("~/Data/hubway_trips.csv.gz", mode='rt') as csvfile:
+currentDir = os.getcwd()
+filename = currentDir + '/Data/hubway_trips.csv.gz'
+with gzip.open(filename, mode='rt') as csvfile:
     for row in csv.reader(csvfile, delimiter=","):
         if row[5] == "strt_statn":
             continue
